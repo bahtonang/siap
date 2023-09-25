@@ -17,45 +17,60 @@ class _SpvHomeState extends State<SpvHome> {
     super.initState();
 
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.directions_bike,
         color: GojekPalette.menuRide,
         title: "GO-RIDE"));
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.local_car_wash,
         color: GojekPalette.menuCar,
         title: "GO-CAR"));
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.directions_car,
         color: GojekPalette.menuBluebird,
         title: "GO-BLUEBIRD"));
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.restaurant,
         color: GojekPalette.menuFood,
         title: "GO-FOOD"));
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.next_week,
         color: GojekPalette.menuSend,
         title: "GO-SEND"));
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.local_offer,
         color: GojekPalette.menuDeals,
         title: "GO-DEALS"));
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.phonelink_ring,
         color: GojekPalette.menuPulsa,
         title: "GO-PULSA"));
     _gojekServiceList.add(new GojekService(
-        image: Icons.apps, color: GojekPalette.menuOther, title: "LAINNYA"));
+        onTap: () {},
+        image: Icons.apps,
+        color: GojekPalette.menuOther,
+        title: "LAINNYA"));
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.shopping_basket,
         color: GojekPalette.menuShop,
         title: "GO-SHOP"));
     _gojekServiceList.add(new GojekService(
+        onTap: () {},
         image: Icons.shopping_cart,
         color: GojekPalette.menuMart,
         title: "GO-MART"));
     _gojekServiceList.add(new GojekService(
-        image: Icons.local_play, color: GojekPalette.menuTix, title: "GO-TIX"));
+        onTap: () {},
+        image: Icons.local_play,
+        color: GojekPalette.menuTix,
+        title: "GO-TIX"));
   }
 
   @override

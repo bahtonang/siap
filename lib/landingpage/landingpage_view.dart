@@ -54,18 +54,6 @@ class _LandingPageState extends State<LandingPage> {
         ),
         BottomNavigationBarItem(
           activeIcon: new Icon(
-            Icons.assignment,
-            color: GojekPalette.green,
-          ),
-          icon: new Icon(
-            Icons.assignment,
-            color: Colors.grey,
-          ),
-          // title: new Text('Pesanan'),
-          label: 'Pesanan',
-        ),
-        BottomNavigationBarItem(
-          activeIcon: new Icon(
             Icons.mail,
             color: GojekPalette.green,
           ),
@@ -87,7 +75,7 @@ class _LandingPageState extends State<LandingPage> {
               color: Colors.grey,
             ),
             // title: new Text('Akun'),
-            label: 'Akun'),
+            label: 'Profile'),
       ],
     );
   }
