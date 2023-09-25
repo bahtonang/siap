@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:siap/models/model.dart';
 import 'package:siap/services/service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,14 +15,25 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController txtPid = TextEditingController();
   TextEditingController txtPass = TextEditingController();
   String? errorMsg;
+  String namauser = "";
+  String nopid = "";
   SiapApiService? siapApiService;
 
-  Person? resultApi;
+  late SharedPreferences _prefs;
 
   @override
   void initState() {
     siapApiService = SiapApiService();
     super.initState();
+    _initSharedPreferences();
+  }
+
+  Future<void> _initSharedPreferences() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
+  Future<void> _saveValue() async {
+    await _prefs.setString("pidKey", namauser);
   }
 
   @override
@@ -30,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(top: 60.0, left: 40.0, right: 40.0),
-        color: Color.fromARGB(255, 207, 238, 67),
+        color: Color.fromARGB(255, 255, 255, 255),
         child: Form(
             key: loginFormkey,
             child: ListView(
@@ -112,11 +123,15 @@ class _LoginPageState extends State<LoginPage> {
     if (loginFormkey.currentState!.validate()) {
       siapApiService?.login('SF13773', '1234').then((value) {
         if (value == null) {
-          errorMsg = "PID atau Password Salah";
-          setState(() {});
+          setState(() {
+            errorMsg = "PID atau Password Salah";
+          });
         } else {
-          resultApi = value;
           setState(() {});
+          nopid = value.user.pid;
+          namauser = value.user.nama;
+          _saveValue();
+          //print(resultApi?.user.pid);
           context.goNamed('menuutama');
         }
       });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:siap/constans.dart';
 import 'package:siap/models/menu.dart';
 import 'package:siap/component/appbar2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MenkanikSewing extends StatefulWidget {
   @override
@@ -10,6 +11,20 @@ class MenkanikSewing extends StatefulWidget {
 
 class _MenkanikSewingState extends State<MenkanikSewing> {
   List<GojekService> _gojekServiceList = [];
+
+  late SharedPreferences _preferences;
+  late String _storedValue = "";
+
+  Future<void> _initSharedPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
+    _loadStoredValue();
+  }
+
+  Future<void> _loadStoredValue() async {
+    setState(() {
+      _storedValue = _preferences.getString("pidKey") ?? "";
+    });
+  }
 
   @override
   void initState() {
@@ -54,6 +69,8 @@ class _MenkanikSewingState extends State<MenkanikSewing> {
         title: "GO-MART"));
     _gojekServiceList.add(new GojekService(
         image: Icons.local_play, color: GojekPalette.menuTix, title: "GO-TIX"));
+
+    _initSharedPreferences();
   }
 
   @override
@@ -120,7 +137,7 @@ class _MenkanikSewingState extends State<MenkanikSewing> {
                         fontFamily: "NeoSans"),
                   ),
                   Text(
-                    "John Saragih",
+                    _storedValue.toString(),
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,

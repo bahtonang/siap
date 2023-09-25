@@ -10,13 +10,12 @@ class SiapApiService {
       'Content-type': 'application/json',
       'Accept': 'application/json'
     };
-    final respond = await client.post(
-        Uri.parse("http://192.168.19.3/apisiap/public/otentikasi/login"),
+    var respond = await client.post(
+        Uri.parse("http://192.168.32.1/apisiap/public/otentikasi/login"),
         headers: header,
         body: json.encode({"pid": pid, "pass": pass}));
     if (respond.statusCode == 200) {
       final data = personFromJson(respond.body);
-
       return data;
     }
     return null;
