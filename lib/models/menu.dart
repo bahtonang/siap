@@ -4,13 +4,13 @@ class GojekService {
   IconData image;
   Color color;
   String title;
-  final VoidCallback onTap;
+  final VoidCallback onPress;
 
   GojekService(
       {required this.image,
       required this.title,
       required this.color,
-      required this.onTap});
+      required this.onPress});
 }
 
 class Food {

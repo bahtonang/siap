@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:siap/clients/chiefs.dart';
+//import 'package:siap/clients/chiefs.dart';
 import 'package:siap/constans.dart';
+import 'package:siap/clients/manager.dart';
+
 // import 'package:siap/manager/home.dart';
-import 'package:siap/spv/spv_home.dart';
-import 'package:siap/teknisi/mekaniksewing.dart';
+//import 'package:siap/spv/spv_home.dart';
+//import 'package:siap/teknisi/mekaniksewing.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -15,10 +17,10 @@ class _LandingPageState extends State<LandingPage> {
 
   pilihWidget() {
     if (bagian == 'SPV') {
-      return new SpvHome();
+      return ManagerHome();
     } else if (bagian == 'MS') {
       //  return MenkanikSewing();
-      return ChiefHome();
+      return ManagerHome();
     }
   }
 
