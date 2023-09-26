@@ -310,7 +310,7 @@ class _ManagerHomeState extends State<ManagerHome> {
                       itemCount: snapshot.data?.length,
                       padding: EdgeInsets.only(top: 12.0),
                       physics: new ClampingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
+                      scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return _rowGoFoodFeatured(snapshot.data?[index]);
                       },
@@ -368,38 +368,6 @@ class _ManagerHomeState extends State<ManagerHome> {
 
     return new Future.delayed(new Duration(seconds: 1), () {
       return _goFoodFeaturedList;
-    });
-  }
-
-  Future<List<Promo>> fetchPromo() async {
-    List<Promo> _poromoList = [];
-
-    _poromoList.add(new Promo(
-        image: "assets/images/promo_1.jpg",
-        title: "Bayar PLN dan BPJS, dapat cashback 10%",
-        content:
-            "Nikmatin cashback 10% untuk pembayaran PLN, BPJS, Google Voucher dan tagihan lain di GO-BILS.",
-        button: "MAU!"));
-    _poromoList.add(new Promo(
-        image: "assets/images/promo_2.jpg",
-        title: "#CeritaGojek",
-        content:
-            "Berulang kali terpuruk tak menghalanginya untuk bangkit dan jadi kebanggan kami, Simak selengkapnya disini.",
-        button: "SELENGKAPNYA"));
-    _poromoList.add(new Promo(
-        image: "assets/images/promo_3.jpg",
-        title: "GOJEK Ultah Ke 8",
-        content:
-            "8 Tahun berdiri ada satu alasan kami tetap tumbuh dan berinovasi. Satu yang buat kami untuk terus berinovasi",
-        button: "CARI TAU!"));
-    _poromoList.add(new Promo(
-        image: "assets/images/promo_4.jpg",
-        title: "Gratis Pulsa 100rb*",
-        content:
-            "Aktifkan 10 Voucher GO-PULSAmu sekarang biar ngabarin yang terdekat gak pakai terhambat.",
-        button: "LAKSANAKAN"));
-    return new Future.delayed(new Duration(seconds: 3), () {
-      return _poromoList;
     });
   }
 }
