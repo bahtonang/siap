@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:siap/clients/chiefs.dart';
 import 'package:siap/constans.dart';
 // import 'package:siap/manager/home.dart';
 import 'package:siap/spv/spv_home.dart';
@@ -10,13 +11,14 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  final String bagian = 'MS';
+  final String bagian = 'SPV';
 
   pilihWidget() {
     if (bagian == 'SPV') {
       return new SpvHome();
     } else if (bagian == 'MS') {
-      return MenkanikSewing();
+      //  return MenkanikSewing();
+      return ChiefHome();
     }
   }
 

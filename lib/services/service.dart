@@ -11,7 +11,7 @@ class SiapApiService {
       'Accept': 'application/json'
     };
     var respond = await client.post(
-        Uri.parse("http://192.168.19.3/apisiap/public/otentikasi/login"),
+        Uri.parse("http://192.168.32.1/apisiap/public/otentikasi/login"),
         headers: header,
         body: json.encode({"pid": pid, "pass": pass}));
     if (respond.statusCode == 200) {
