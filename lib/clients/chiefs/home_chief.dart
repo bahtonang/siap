@@ -58,7 +58,7 @@ class _ChiefHomeState extends State<ChiefHome> {
                 margin: EdgeInsets.only(top: 16.0),
                 child: new Column(
                   children: <Widget>[
-                    //     _buildGoFoodFeatured(),
+                    _menuGambar(),
                   ],
                 ),
               )
@@ -197,7 +197,7 @@ class _ChiefHomeState extends State<ChiefHome> {
                       physics: new ClampingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        //return _rowGoFoodFeatured(snapshot.data?[index]);
+                        return _rowGambar(snapshot.data?[index]);
                       },
                     );
                   }
@@ -214,19 +214,52 @@ class _ChiefHomeState extends State<ChiefHome> {
     );
   }
 
+  Widget _rowGambar(Food food) {
+    return new Container(
+      margin: EdgeInsets.only(right: 16.0),
+      child: new Column(
+        children: <Widget>[
+          new ClipRRect(
+            borderRadius: new BorderRadius.circular(8.0),
+            child: Image.network(
+              food.url,
+              width: 132.0,
+              height: 132.0,
+            ),
+          ),
+          //  ),
+          new Padding(
+            padding: EdgeInsets.only(top: 8.0),
+          ),
+          new Text(
+            food.title,
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<List<Food>> fetchFood() async {
     List<Food> _goFoodFeaturedList = [];
-    _goFoodFeaturedList.add(
-        new Food(title: "Steak Andakar", image: "assets/images/food_1.jpg"));
-    _goFoodFeaturedList.add(
-        new Food(title: "Mie Ayam Tumini", image: "assets/images/food_2.jpg"));
-    _goFoodFeaturedList.add(
-        new Food(title: "Tengkleng Hohah", image: "assets/images/food_3.jpg"));
-    _goFoodFeaturedList.add(
-        new Food(title: "Warung Steak", image: "assets/images/food_4.jpg"));
     _goFoodFeaturedList.add(new Food(
-        title: "Kindai Warung Banjar", image: "assets/images/food_5.jpg"));
-
+        title: "Steak Andakar",
+        url:
+            'https://upload.wikimedia.org/wikipedia/commons/7/78/Wulan_Guritno_on_Festival_Film_Indonesia_2015.jpg'));
+    _goFoodFeaturedList.add(new Food(
+        title: "Mie Ayam Tumini",
+        url:
+            'https://media.suara.com/suara-partners/manado/thumbs/653x367/2023/08/19/1-dian.png'));
+    _goFoodFeaturedList.add(new Food(
+        title: "Tengkleng Hohah",
+        url:
+            'https://img.antaranews.com/cache/1200x800/2021/08/31/Screenshot_2020-09-18-17-02-01-33_copy_1320x880.jpg.webp'));
+    _goFoodFeaturedList.add(new Food(
+        title: "Warung Steak",
+        url:
+            'https://fajar.co.id/wp-content/uploads/2020/05/Dian-Sastro-1.jpg'));
+    _goFoodFeaturedList.add(new Food(
+        title: "Kindai Warung Banjar",
+        url: 'http://192.168.32.1/asik/images/SF13773.jpg'));
     return new Future.delayed(new Duration(seconds: 1), () {
       return _goFoodFeaturedList;
     });
@@ -235,6 +268,7 @@ class _ChiefHomeState extends State<ChiefHome> {
 
 class Food {
   String title;
-  String image;
-  Food({required this.title, required this.image});
+  String url;
+
+  Food({required this.title, required this.url});
 }
