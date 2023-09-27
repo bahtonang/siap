@@ -124,7 +124,7 @@ class _ChiefHomeState extends State<ChiefHome> {
   Widget _buildMenu() {
     return new SizedBox(
         width: double.infinity,
-        height: 220.0,
+        height: 250.0,
         child: new Container(
           margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: GridView.count(
@@ -135,7 +135,9 @@ class _ChiefHomeState extends State<ChiefHome> {
                 icon: Icons.auto_stories,
                 iconColor: Colors.orange,
                 label: "Profile",
-                onPres: () {},
+                onPres: () {
+                  print('profile');
+                },
               ),
               MenuIcon(
                 icon: Icons.add_to_home_screen,
@@ -165,4 +167,74 @@ class _ChiefHomeState extends State<ChiefHome> {
           ),
         ));
   }
+
+  Widget _menuGambar() {
+    return new Container(
+      padding: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 16.0),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          new Text(
+            "Aktivitas",
+            style: new TextStyle(fontFamily: "NeoSansBold"),
+          ),
+          new Padding(
+            padding: EdgeInsets.only(top: 8.0),
+          ),
+          new Text(
+            "Aktifitas Terupdate",
+            style: new TextStyle(fontFamily: "NeoSansBold"),
+          ),
+          new SizedBox(
+            height: 172.0,
+            child: FutureBuilder<List>(
+                future: fetchFood(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return new ListView.builder(
+                      itemCount: snapshot.data?.length,
+                      padding: EdgeInsets.only(top: 12.0),
+                      physics: new ClampingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        //return _rowGoFoodFeatured(snapshot.data?[index]);
+                      },
+                    );
+                  }
+                  return Center(
+                    child: SizedBox(
+                        width: 40.0,
+                        height: 40.0,
+                        child: const CircularProgressIndicator()),
+                  );
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<List<Food>> fetchFood() async {
+    List<Food> _goFoodFeaturedList = [];
+    _goFoodFeaturedList.add(
+        new Food(title: "Steak Andakar", image: "assets/images/food_1.jpg"));
+    _goFoodFeaturedList.add(
+        new Food(title: "Mie Ayam Tumini", image: "assets/images/food_2.jpg"));
+    _goFoodFeaturedList.add(
+        new Food(title: "Tengkleng Hohah", image: "assets/images/food_3.jpg"));
+    _goFoodFeaturedList.add(
+        new Food(title: "Warung Steak", image: "assets/images/food_4.jpg"));
+    _goFoodFeaturedList.add(new Food(
+        title: "Kindai Warung Banjar", image: "assets/images/food_5.jpg"));
+
+    return new Future.delayed(new Duration(seconds: 1), () {
+      return _goFoodFeaturedList;
+    });
+  }
+}
+
+class Food {
+  String title;
+  String image;
+  Food({required this.title, required this.image});
 }
