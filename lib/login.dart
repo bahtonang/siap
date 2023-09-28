@@ -16,24 +16,23 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController txtPass = TextEditingController();
   String? errorMsg;
   String namauser = "";
+  String namagedung = "";
   String nopid = "";
   SiapApiService? siapApiService;
 
-  late SharedPreferences _prefs;
+  //late SharedPreferences _prefs;
 
   @override
   void initState() {
     siapApiService = SiapApiService();
     super.initState();
-    _initSharedPreferences();
   }
 
-  Future<void> _initSharedPreferences() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
-
-  Future<void> _saveValue() async {
-    await _prefs.setString("pidKey", namauser);
+  Future<void> savePref() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('sp_pid', nopid);
+    prefs.setString('sp_nama', namauser);
+    prefs.setString('sp_gedung', namagedung);
   }
 
   @override
@@ -128,9 +127,11 @@ class _LoginPageState extends State<LoginPage> {
           });
         } else {
           setState(() {});
+          print(value.user.nama);
           nopid = value.user.pid;
           namauser = value.user.nama;
-          _saveValue();
+          namagedung = value.user.gedung;
+          savePref();
           //print(resultApi?.user.pid);
           context.pushNamed('menuutama');
         }

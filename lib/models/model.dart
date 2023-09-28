@@ -79,3 +79,10 @@ class Lokasi {
   String pid;
   String nama;
 }
+
+class Personal {
+  Personal({required this.pid, required this.nama, required this.gedung});
+  String pid;
+  String nama;
+  String gedung;
+}

@@ -4,6 +4,8 @@ import 'package:siap/constans.dart';
 import 'package:siap/login.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:siap/teknisi/sewing/mksewing.dart';
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,7 +21,16 @@ class MyApp extends StatelessWidget {
         name: 'menuutama',
         builder: (context, state) {
           return LandingPage();
-        }),
+        },
+        routes: [
+          GoRoute(
+            path: 'mksewing',
+            name: 'mksewing',
+            builder: (context, state) {
+              return MekanikSewing();
+            },
+          ),
+        ]),
   ], initialLocation: '/login', debugLogDiagnostics: true, routerNeglect: true);
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:siap/component/siapappbar.dart';
 import 'package:siap/models/menus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,16 +13,20 @@ class ChiefHome extends StatefulWidget {
 
 class _ChiefHomeState extends State<ChiefHome> {
   late SharedPreferences _preferences;
-  late String _storedValue = "";
+  late String spNama = "";
+  late String spGedung = "";
+  late String spPid = "";
 
   Future<void> _initSharedPreferences() async {
     _preferences = await SharedPreferences.getInstance();
-    _loadStoredValue();
+    _loadSpValue();
   }
 
-  Future<void> _loadStoredValue() async {
+  Future<void> _loadSpValue() async {
     setState(() {
-      _storedValue = _preferences.getString("pidKey") ?? "";
+      spPid = _preferences.getString("sp_pid") ?? "";
+      spNama = _preferences.getString("sp_nama") ?? "";
+      spGedung = _preferences.getString("sp_gedung") ?? "";
     });
   }
 
@@ -97,7 +102,7 @@ class _ChiefHomeState extends State<ChiefHome> {
                         fontFamily: "NeoSans"),
                   ),
                   Text(
-                    _storedValue.toString(),
+                    spNama.toString(),
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -112,8 +117,8 @@ class _ChiefHomeState extends State<ChiefHome> {
             child: CircleAvatar(
               radius: 50,
               backgroundColor: Colors.white,
-              backgroundImage: NetworkImage(
-                  "https://cdn1-production-images-kly.akamaized.net/6xrsJLddHBYsPX4H4_Sb1AHjreE=/469x625/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/1043120/original/b720028eb1c8d0a921769dda0c33126d-063745600_1446613692-raisa__9_.jpg"),
+              //   backgroundImage: NetworkImage(
+              //       "https://www.astronauts.id/blog/wp-content/uploads/2023/04/Semangka-Buah-Segar-yang-Memiliki-Banyak-Manfaat-Bagi-Tubuh.jpg"),
             ),
           ),
         ],
@@ -134,33 +139,33 @@ class _ChiefHomeState extends State<ChiefHome> {
               MenuIcon(
                 icon: Icons.auto_stories,
                 iconColor: Colors.orange,
-                label: "Profile",
+                label: "MK Sewing",
                 onPres: () {
-                  print('profile');
+                  context.goNamed('mksewing');
                 },
               ),
               MenuIcon(
                 icon: Icons.add_to_home_screen,
                 iconColor: Colors.green,
-                label: "Pulang",
+                label: "MK Listrik",
                 onPres: () {},
               ),
               MenuIcon(
                 icon: Icons.deck_rounded,
                 iconColor: Colors.purple,
-                label: "Absen",
+                label: "Umum",
                 onPres: () {},
               ),
               MenuIcon(
                 icon: Icons.auto_stories,
                 iconColor: Colors.green,
-                label: "Kode Gaji ",
+                label: "EDP",
                 onPres: () {},
               ),
               MenuIcon(
                 icon: Icons.article_outlined,
                 iconColor: Colors.orange,
-                label: "SlipGaji",
+                label: "Tiket",
                 onPres: () {},
               ),
             ],
@@ -221,12 +226,12 @@ class _ChiefHomeState extends State<ChiefHome> {
         children: <Widget>[
           new ClipRRect(
             borderRadius: new BorderRadius.circular(8.0),
-            child: Image.network(
-              food.url,
-              width: 132.0,
-              height: 132.0,
-            ),
+            // child: Image.network(
+            //   food.url,
+            //   width: 132.0,
+            //   height: 132.0,
           ),
+          //  ),
           //  ),
           new Padding(
             padding: EdgeInsets.only(top: 8.0),
@@ -259,7 +264,8 @@ class _ChiefHomeState extends State<ChiefHome> {
             'https://fajar.co.id/wp-content/uploads/2020/05/Dian-Sastro-1.jpg'));
     _goFoodFeaturedList.add(new Food(
         title: "Kindai Warung Banjar",
-        url: 'http://192.168.32.1/asik/images/SF13773.jpg'));
+        url:
+            'https://fajar.co.id/wp-content/uploads/2020/05/Dian-Sastro-1.jpg'));
     return new Future.delayed(new Duration(seconds: 1), () {
       return _goFoodFeaturedList;
     });

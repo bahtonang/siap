@@ -11,7 +11,7 @@ class SiapApiService {
       'Accept': 'application/json'
     };
     var respond = await client.post(
-        Uri.parse("http://192.168.32.1/apisiap/public/otentikasi/login"),
+        Uri.parse("http://192.168.19.2/apisiap/public/otentikasi/login"),
         headers: header,
         body: json.encode({"pid": pid, "pass": pass}));
     if (respond.statusCode == 200) {
@@ -21,46 +21,63 @@ class SiapApiService {
     return null;
   }
 
-  Future<List<Lokasi>> getLokasi(String pid) async {
-    var respond = await client
-        .get(Uri.parse("http://192.168.19.3/ciasik/public/lokasi/$pid"));
-    if (respond.statusCode == 200) {
-      var jsonData = json.decode(respond.body);
-      var jsonArray = jsonData['data'];
-      List<Lokasi> lokasi = [];
-      for (var jsonLokasi in jsonArray) {
-        Lokasi lok = Lokasi(
-          pid: jsonLokasi['pid'],
-          nama: jsonLokasi['nama'],
-        );
-        lokasi.add(lok);
-      }
-      return lokasi;
-    }
-    return [];
-  }
-
-  Future<List<TCard>> getTimecard(
-      String pid, String bulan, String tahun) async {
+  Future<List<Personal>> getPersonal(String gedung, statusstaf) async {
     var respond = await client.get(Uri.parse(
-        "http://192.168.19.3/ciasik/public/tcard/$pid/$bulan/$tahun"));
+        "http://192.168.19.2/apisiap/public/personal/$gedung/$statusstaf"));
     if (respond.statusCode == 200) {
-      var jsonData = json.decode(respond.body);
-
+      var jsonData = jsonDecode(respond.body);
       var jsonArray = jsonData['data'];
-      List<TCard> tc = [];
-      for (var jsonTC in jsonArray) {
-        TCard ntcard = TCard(
-            tgl: jsonTC['tgl'],
-            absenstatus: jsonTC['absenstatus'],
-            checkin: jsonTC['checkin'],
-            checkout: jsonTC['checkout'],
-            checkoutcount: jsonTC['checkoutcount'],
-            overtime: jsonTC['overtime']);
-        tc.add(ntcard);
+      List<Personal> listpersonal = [];
+      for (var data in jsonArray) {
+        Personal personal = Personal(
+            pid: data['pid'], nama: data['nama'], gedung: data['gedung']);
+        listpersonal.add(personal);
       }
-      return tc;
+      return listpersonal;
     }
     return [];
   }
+
+  // Future<List<Lokasi>> getLokasi(String pid) async {
+  //   var respond = await client
+  //       .get(Uri.parse("http://192.168.19.2/ciasik/public/lokasi/$pid"));
+  //   if (respond.statusCode == 200) {
+  //     var jsonData = json.decode(respond.body);
+  //     var jsonArray = jsonData['data'];
+  //     List<Lokasi> lokasi = [];
+  //     for (var jsonLokasi in jsonArray) {
+  //       Lokasi lok = Lokasi(
+  //         pid: jsonLokasi['pid'],
+  //         nama: jsonLokasi['nama'],
+  //       );
+  //       lokasi.add(lok);
+  //     }
+  //     return lokasi;
+  //   }
+  //   return [];
+  // }
+
+  // Future<List<TCard>> getTimecard(
+  //     String pid, String bulan, String tahun) async {
+  //   var respond = await client.get(Uri.parse(
+  //       "http://192.168.19.3/ciasik/public/tcard/$pid/$bulan/$tahun"));
+  //   if (respond.statusCode == 200) {
+  //     var jsonData = json.decode(respond.body);
+
+  //     var jsonArray = jsonData['data'];
+  //     List<TCard> tc = [];
+  //     for (var jsonTC in jsonArray) {
+  //       TCard ntcard = TCard(
+  //           tgl: jsonTC['tgl'],
+  //           absenstatus: jsonTC['absenstatus'],
+  //           checkin: jsonTC['checkin'],
+  //           checkout: jsonTC['checkout'],
+  //           checkoutcount: jsonTC['checkoutcount'],
+  //           overtime: jsonTC['overtime']);
+  //       tc.add(ntcard);
+  //     }
+  //     return tc;
+  //   }
+  //   return [];
+  // }
 }
