@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
           namauser = value.user.nama;
           namagedung = value.user.gedung;
           savePref();
-          //print(resultApi?.user.pid);
+
           context.pushNamed('menuutama');
         }
       });

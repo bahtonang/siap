@@ -141,7 +141,7 @@ class _ChiefHomeState extends State<ChiefHome> {
                 iconColor: Colors.orange,
                 label: "MK Sewing",
                 onPres: () {
-                  context.goNamed('mksewing');
+                  context.goNamed('mksewing', params: {'gedung': spGedung});
                 },
               ),
               MenuIcon(

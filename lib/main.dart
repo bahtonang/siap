@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:siap/landingpage/landingpage_view.dart';
+import 'package:siap/landingpage/landingpage.dart';
 import 'package:siap/constans.dart';
 import 'package:siap/login.dart';
 import 'package:go_router/go_router.dart';
@@ -24,10 +24,10 @@ class MyApp extends StatelessWidget {
         },
         routes: [
           GoRoute(
-            path: 'mksewing',
+            path: 'mksewing/:gedung',
             name: 'mksewing',
             builder: (context, state) {
-              return MekanikSewing();
+              return MekanikSewing(gedung: state.params['gedung']);
             },
           ),
         ]),

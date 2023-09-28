@@ -38,24 +38,23 @@ class SiapApiService {
     return [];
   }
 
-  // Future<List<Lokasi>> getLokasi(String pid) async {
-  //   var respond = await client
-  //       .get(Uri.parse("http://192.168.19.2/ciasik/public/lokasi/$pid"));
-  //   if (respond.statusCode == 200) {
-  //     var jsonData = json.decode(respond.body);
-  //     var jsonArray = jsonData['data'];
-  //     List<Lokasi> lokasi = [];
-  //     for (var jsonLokasi in jsonArray) {
-  //       Lokasi lok = Lokasi(
-  //         pid: jsonLokasi['pid'],
-  //         nama: jsonLokasi['nama'],
-  //       );
-  //       lokasi.add(lok);
-  //     }
-  //     return lokasi;
-  //   }
-  //   return [];
-  // }
+  Future<List<Lokasi>> getLokasi(String gedung) async {
+    var respond = await client
+        .get(Uri.parse("http://192.168.19.2/apisiap/public/lokasi/$gedung"));
+    if (respond.statusCode == 200) {
+      var jsonData = json.decode(respond.body);
+      var jsonArray = jsonData['data'];
+      List<Lokasi> listlokasi = [];
+      for (var data in jsonArray) {
+        Lokasi lokasi = Lokasi(
+          nama: data['nama'],
+        );
+        listlokasi.add(lokasi);
+      }
+      return listlokasi;
+    }
+    return [];
+  }
 
   // Future<List<TCard>> getTimecard(
   //     String pid, String bulan, String tahun) async {

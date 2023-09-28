@@ -75,8 +75,7 @@ class TCard {
 }
 
 class Lokasi {
-  Lokasi({required this.pid, required this.nama});
-  String pid;
+  Lokasi({required this.nama});
   String nama;
 }
 
