@@ -1,29 +1,40 @@
+import 'package:flutter/material.dart';
 import 'package:siap/models/model.dart';
 import 'package:http/http.dart' show Client;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 
 class SiapApiService {
   Client client = Client();
+  static const String url = "http://192.168.19.3/apisiap/public/";
 
   Future<Person?> login(String pid, String pass) async {
-    Map<String, String> header = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json'
-    };
-    var respond = await client.post(
-        Uri.parse("http://192.168.32.1/apisiap/public/otentikasi/login"),
-        headers: header,
-        body: json.encode({"pid": pid, "pass": pass}));
-    if (respond.statusCode == 200) {
-      final data = personFromJson(respond.body);
-      return data;
+    try {
+      Map<String, String> header = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
+      };
+      var respond = await client.post(Uri.parse("$url/otentikasi/login"),
+          headers: header, body: json.encode({"pid": pid, "pass": pass}));
+      if (respond.statusCode == 200) {
+        final data = personFromJson(respond.body);
+        return data;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Terjadi Kesalahan Koneksi Ke Server, Mungkin dia Lelah...!',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
     }
     return null;
   }
 
   Future<List<Teknisi>> getTeknisi(String gedung, kodebagian) async {
-    var respond = await client.get(Uri.parse(
-        "http://192.168.32.1/apisiap/public/teknisi/$gedung/$kodebagian"));
+    var respond =
+        await client.get(Uri.parse("$url/teknisi/$gedung/$kodebagian"));
     if (respond.statusCode == 200) {
       var jsonData = jsonDecode(respond.body);
       var jsonArray = jsonData['data'];
@@ -38,8 +49,8 @@ class SiapApiService {
   }
 
   Future<List<Personal>> getPersonal(String gedung, statusstaf) async {
-    var respond = await client.get(Uri.parse(
-        "http://192.168.32.1/apisiap/public/personal/$gedung/$statusstaf"));
+    var respond =
+        await client.get(Uri.parse("$url/personal/$gedung/$statusstaf"));
     if (respond.statusCode == 200) {
       var jsonData = jsonDecode(respond.body);
       var jsonArray = jsonData['data'];
@@ -55,19 +66,28 @@ class SiapApiService {
   }
 
   Future<List<Lokasi>> getLokasi(String gedung) async {
-    var respond = await client
-        .get(Uri.parse("http://192.168.32.1/apisiap/public/lokasi/$gedung"));
-    if (respond.statusCode == 200) {
-      var jsonData = json.decode(respond.body);
-      var jsonArray = jsonData['data'];
-      List<Lokasi> listlokasi = [];
-      for (var data in jsonArray) {
-        Lokasi lokasi = Lokasi(
-          nama: data['nama'],
-        );
-        listlokasi.add(lokasi);
+    try {
+      var respond = await client.get(Uri.parse("$url/lokasi/$gedung"));
+      if (respond.statusCode == 200) {
+        var jsonData = json.decode(respond.body);
+        var jsonArray = jsonData['data'];
+        List<Lokasi> listlokasi = [];
+        for (var data in jsonArray) {
+          Lokasi lokasi = Lokasi(
+            nama: data['nama'],
+          );
+          listlokasi.add(lokasi);
+        }
+        return listlokasi;
       }
-      return listlokasi;
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Error $e',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
     }
     return [];
   }

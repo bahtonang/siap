@@ -127,7 +127,6 @@ class _LoginPageState extends State<LoginPage> {
           });
         } else {
           setState(() {});
-          print(value.user.nama);
           nopid = value.user.pid;
           namauser = value.user.nama;
           namagedung = value.user.gedung;
