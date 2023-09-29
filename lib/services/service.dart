@@ -11,7 +11,7 @@ class SiapApiService {
       'Accept': 'application/json'
     };
     var respond = await client.post(
-        Uri.parse("http://192.168.19.2/apisiap/public/otentikasi/login"),
+        Uri.parse("http://192.168.32.1/apisiap/public/otentikasi/login"),
         headers: header,
         body: json.encode({"pid": pid, "pass": pass}));
     if (respond.statusCode == 200) {
@@ -21,9 +21,25 @@ class SiapApiService {
     return null;
   }
 
+  Future<List<Teknisi>> getTeknisi(String gedung, kodebagian) async {
+    var respond = await client.get(Uri.parse(
+        "http://192.168.32.1/apisiap/public/teknisi/$gedung/$kodebagian"));
+    if (respond.statusCode == 200) {
+      var jsonData = jsonDecode(respond.body);
+      var jsonArray = jsonData['data'];
+      List<Teknisi> listteknisi = [];
+      for (var data in jsonArray) {
+        Teknisi teknisi = Teknisi(nama: data['nama']);
+        listteknisi.add(teknisi);
+      }
+      return listteknisi;
+    }
+    return [];
+  }
+
   Future<List<Personal>> getPersonal(String gedung, statusstaf) async {
     var respond = await client.get(Uri.parse(
-        "http://192.168.19.2/apisiap/public/personal/$gedung/$statusstaf"));
+        "http://192.168.32.1/apisiap/public/personal/$gedung/$statusstaf"));
     if (respond.statusCode == 200) {
       var jsonData = jsonDecode(respond.body);
       var jsonArray = jsonData['data'];
@@ -40,7 +56,7 @@ class SiapApiService {
 
   Future<List<Lokasi>> getLokasi(String gedung) async {
     var respond = await client
-        .get(Uri.parse("http://192.168.19.2/apisiap/public/lokasi/$gedung"));
+        .get(Uri.parse("http://192.168.32.1/apisiap/public/lokasi/$gedung"));
     if (respond.statusCode == 200) {
       var jsonData = json.decode(respond.body);
       var jsonArray = jsonData['data'];

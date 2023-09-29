@@ -4,25 +4,32 @@ import 'package:siap/services/service.dart';
 
 class MekanikSewing extends StatefulWidget {
   final String? gedung;
-  MekanikSewing({super.key, this.gedung});
+  final String? kodebagian;
+  MekanikSewing({super.key, this.gedung, this.kodebagian});
 
   @override
   State<MekanikSewing> createState() => _MekanikSewingState();
 }
 
 class _MekanikSewingState extends State<MekanikSewing> {
+  TextEditingController txt_kodebarang = TextEditingController();
+  TextEditingController txt_namabarang = TextEditingController();
+  TextEditingController txt_rusak = TextEditingController();
+  String? errorMsg;
   SiapApiService? siapApiService;
 
-  List<Personal> _items = [];
+  List<Teknisi> _items = [];
   List<Lokasi> _lokasi = [];
-  Personal? _selectedItem;
+  Teknisi? _selectedItem;
   Lokasi? _selectedLokasi;
 
   @override
   void initState() {
     super.initState();
     siapApiService = SiapApiService();
-    siapApiService?.getPersonal(widget.gedung.toString(), 'T').then((value) {
+    siapApiService
+        ?.getTeknisi(widget.gedung.toString(), widget.kodebagian.toString())
+        .then((value) {
       setState(() {
         _items = value;
       });
@@ -56,10 +63,10 @@ class _MekanikSewingState extends State<MekanikSewing> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        DropdownButtonFormField<Personal>(
+                        DropdownButtonFormField<Teknisi>(
                           value: _selectedItem,
                           items: _items.map((item) {
-                            return DropdownMenuItem<Personal>(
+                            return DropdownMenuItem<Teknisi>(
                                 child: Text(item.nama), value: item);
                           }).toList(),
                           onChanged: (newValue) {
@@ -98,6 +105,79 @@ class _MekanikSewingState extends State<MekanikSewing> {
                                     width: 12)),
                               )),
                           borderRadius: BorderRadius.circular(20),
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          // validator: (String? value) {
+                          //   if (value!.isEmpty) {
+                          //     return 'Kode Barang';
+                          //   }
+                          //   return null;
+                          // },
+                          controller: txt_kodebarang,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            labelText: 'Kode Barang',
+                            errorText: errorMsg,
+                            labelStyle: TextStyle(
+                                color: Colors.black26,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.0),
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return 'Nama Barang Harus Di Isi';
+                            }
+                            return null;
+                          },
+                          controller: txt_namabarang,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            labelText: 'Nama Barang',
+                            errorText: errorMsg,
+                            labelStyle: TextStyle(
+                                color: Colors.black26,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.0),
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return 'Keluhan Harus Di Isi';
+                            }
+                            return null;
+                          },
+                          controller: txt_rusak,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 2,
+                          decoration: InputDecoration(
+                            labelText: 'Keluhan',
+                            errorText: errorMsg,
+                            labelStyle: TextStyle(
+                                color: Colors.black26,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.0),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Icon(Icons.send),
+                          label: Text(
+                            'Kirim',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14.0),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100, 50),
+                          ),
                         ),
                       ],
                     ),

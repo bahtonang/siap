@@ -55,6 +55,23 @@ class User {
       };
 }
 
+class Personal {
+  Personal({required this.pid, required this.nama, required this.gedung});
+  String pid;
+  String nama;
+  String gedung;
+}
+
+class Lokasi {
+  Lokasi({required this.nama});
+  String nama;
+}
+
+class Teknisi {
+  Teknisi({required this.nama});
+  String nama;
+}
+
 //-------------------------------------------------------
 class TCard {
   TCard({
@@ -72,16 +89,4 @@ class TCard {
   String checkout;
   String checkoutcount;
   String overtime;
-}
-
-class Lokasi {
-  Lokasi({required this.nama});
-  String nama;
-}
-
-class Personal {
-  Personal({required this.pid, required this.nama, required this.gedung});
-  String pid;
-  String nama;
-  String gedung;
 }

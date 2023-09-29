@@ -117,8 +117,8 @@ class _ChiefHomeState extends State<ChiefHome> {
             child: CircleAvatar(
               radius: 50,
               backgroundColor: Colors.white,
-              //   backgroundImage: NetworkImage(
-              //       "https://www.astronauts.id/blog/wp-content/uploads/2023/04/Semangka-Buah-Segar-yang-Memiliki-Banyak-Manfaat-Bagi-Tubuh.jpg"),
+              backgroundImage: NetworkImage(
+                  "https://www.astronauts.id/blog/wp-content/uploads/2023/04/Semangka-Buah-Segar-yang-Memiliki-Banyak-Manfaat-Bagi-Tubuh.jpg"),
             ),
           ),
         ],
@@ -141,7 +141,8 @@ class _ChiefHomeState extends State<ChiefHome> {
                 iconColor: Colors.orange,
                 label: "MK Sewing",
                 onPres: () {
-                  context.goNamed('mksewing', params: {'gedung': spGedung});
+                  context.goNamed('mksewing',
+                      params: {'gedung': spGedung, 'kodebagian': 'MKS'});
                 },
               ),
               MenuIcon(
@@ -230,9 +231,8 @@ class _ChiefHomeState extends State<ChiefHome> {
             //   food.url,
             //   width: 132.0,
             //   height: 132.0,
+            // ),
           ),
-          //  ),
-          //  ),
           new Padding(
             padding: EdgeInsets.only(top: 8.0),
           ),
