@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:siap/dropdwm.dart';
 import 'package:siap/landingpage/landingpage.dart';
 import 'package:siap/constans.dart';
 import 'package:siap/login.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:siap/teknisi/sewing/mksewing.dart';
+import 'package:siap/form/sewing/mksewing.dart';
 
 void main() => runApp(new MyApp());
 
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
         path: '/',
         name: 'menuutama',
         builder: (context, state) {
-          return LandingPage();
+          // return LandingPage();
+          return CobaDropdwn();
         },
         routes: [
           GoRoute(

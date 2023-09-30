@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:siap/models/model.dart';
 import 'package:siap/services/service.dart';
 
@@ -12,9 +13,9 @@ class MekanikSewing extends StatefulWidget {
 }
 
 class _MekanikSewingState extends State<MekanikSewing> {
-  TextEditingController txt_kodebarang = TextEditingController();
-  TextEditingController txt_namabarang = TextEditingController();
-  TextEditingController txt_rusak = TextEditingController();
+  TextEditingController txtKodebarang = TextEditingController();
+  TextEditingController txtNamabarang = TextEditingController();
+  TextEditingController txtKeluhan = TextEditingController();
   String? errorMsg;
   SiapApiService? siapApiService;
 
@@ -40,6 +41,47 @@ class _MekanikSewingState extends State<MekanikSewing> {
         _lokasi = valuelokasi;
       });
     });
+  }
+
+  Future savetiket() async {
+    siapApiService
+        ?.kirimTicket('kdbrg', txtNamabarang.text, txtKeluhan.text,
+            widget.gedung.toString(), 'suti')
+        .then((value) => true);
+    if (true) {
+      setState(() {});
+      txtKodebarang.clear();
+      _showMyDialog();
+    }
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Tiket Terkirim'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Permintaan sudah di kirim ke Mekanik'),
+                Text('Silakan periksa status tiket di menu utama'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Tutup'),
+              onPressed: () {
+                //Navigator.of(context).pop();
+                context.goNamed('menuutama');
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -114,7 +156,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                           //   }
                           //   return null;
                           // },
-                          controller: txt_kodebarang,
+                          controller: txtKodebarang,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             labelText: 'Kode Barang',
@@ -133,7 +175,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                             }
                             return null;
                           },
-                          controller: txt_namabarang,
+                          controller: txtNamabarang,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             labelText: 'Nama Barang',
@@ -152,7 +194,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                             }
                             return null;
                           },
-                          controller: txt_rusak,
+                          controller: txtKeluhan,
                           keyboardType: TextInputType.multiline,
                           maxLines: 2,
                           decoration: InputDecoration(
@@ -168,7 +210,9 @@ class _MekanikSewingState extends State<MekanikSewing> {
                           height: 30.0,
                         ),
                         ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            savetiket();
+                          },
                           icon: Icon(Icons.send),
                           label: Text(
                             'Kirim',
@@ -176,7 +220,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                                 fontWeight: FontWeight.bold, fontSize: 14.0),
                           ),
                           style: ElevatedButton.styleFrom(
-                            minimumSize: Size(100, 50),
+                            minimumSize: Size(200, 50),
                           ),
                         ),
                       ],

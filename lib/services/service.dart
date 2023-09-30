@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class SiapApiService {
   Client client = Client();
-  static const String url = "http://192.168.19.3/apisiap/public/";
+  static const String url = "http://192.168.32.1/apisiap/public/";
 
   Future<Person?> login(String pid, String pass) async {
     try {
@@ -92,27 +92,29 @@ class SiapApiService {
     return [];
   }
 
-  // Future<List<TCard>> getTimecard(
-  //     String pid, String bulan, String tahun) async {
-  //   var respond = await client.get(Uri.parse(
-  //       "http://192.168.19.3/ciasik/public/tcard/$pid/$bulan/$tahun"));
-  //   if (respond.statusCode == 200) {
-  //     var jsonData = json.decode(respond.body);
-
-  //     var jsonArray = jsonData['data'];
-  //     List<TCard> tc = [];
-  //     for (var jsonTC in jsonArray) {
-  //       TCard ntcard = TCard(
-  //           tgl: jsonTC['tgl'],
-  //           absenstatus: jsonTC['absenstatus'],
-  //           checkin: jsonTC['checkin'],
-  //           checkout: jsonTC['checkout'],
-  //           checkoutcount: jsonTC['checkoutcount'],
-  //           overtime: jsonTC['overtime']);
-  //       tc.add(ntcard);
-  //     }
-  //     return tc;
-  //   }
-  //   return [];
-  // }
+  Future<bool> kirimTicket(String kodebarang, String namabarang, String keluhan,
+      String lokasi, String pengirim) async {
+    try {
+      final respond = await client.post(Uri.parse("$url/kirimtiket"),
+          body: jsonEncode({
+            "kodebarang": kodebarang,
+            "namabarang": namabarang,
+            "keluhan": keluhan,
+            "lokasi": lokasi,
+            "pengirim": pengirim
+          }));
+      if (respond.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Error $e',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+    return false;
+  }
 }
