@@ -13,10 +13,12 @@ class MekanikSewing extends StatefulWidget {
 }
 
 class _MekanikSewingState extends State<MekanikSewing> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController txtKodebarang = TextEditingController();
   TextEditingController txtNamabarang = TextEditingController();
   TextEditingController txtKeluhan = TextEditingController();
   String? errorMsg;
+  String? errorTeknisi;
   SiapApiService? siapApiService;
 
   List<Teknisi> _items = [];
@@ -45,13 +47,15 @@ class _MekanikSewingState extends State<MekanikSewing> {
 
   Future savetiket() async {
     siapApiService
-        ?.kirimTicket('kdbrg', txtNamabarang.text, txtKeluhan.text,
-            widget.gedung.toString(), 'suti')
+        ?.kirimticket('kdbrg', txtNamabarang.text, txtKeluhan.text,
+            widget.gedung.toString(), 'surti')
         .then((value) => true);
     if (true) {
       setState(() {});
       txtKodebarang.clear();
-      _showMyDialog();
+      txtKeluhan.clear();
+      txtNamabarang.clear();
+      await _showMyDialog();
     }
   }
 
@@ -100,6 +104,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                     BoxDecoration(color: Color.fromARGB(255, 233, 235, 236)),
                 child: SingleChildScrollView(
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         SizedBox(
@@ -116,6 +121,9 @@ class _MekanikSewingState extends State<MekanikSewing> {
                               _selectedItem = newValue;
                             });
                           },
+                          validator: (_selectedItem) => _selectedItem == null
+                              ? 'Nama Harus di pilih'
+                              : null,
                           decoration: InputDecoration(
                               labelText: 'Pilih Nama',
                               border: OutlineInputBorder(
@@ -139,6 +147,9 @@ class _MekanikSewingState extends State<MekanikSewing> {
                             return DropdownMenuItem<Lokasi>(
                                 value: itemlok, child: Text(itemlok.nama));
                           }).toList(),
+                          validator: (_selectedItem) => _selectedItem == null
+                              ? 'Lokasi Harus di pilih'
+                              : null,
                           decoration: InputDecoration(
                               labelText: 'Pilih Lokasi',
                               border: OutlineInputBorder(
@@ -211,7 +222,9 @@ class _MekanikSewingState extends State<MekanikSewing> {
                         ),
                         ElevatedButton.icon(
                           onPressed: () {
-                            savetiket();
+                            if (_formKey.currentState!.validate()) {
+                              savetiket();
+                            }
                           },
                           icon: Icon(Icons.send),
                           label: Text(
