@@ -92,8 +92,15 @@ class SiapApiService {
     return [];
   }
 
-  Future<bool> kirimticket(String kodebarang, String namabarang, String keluhan,
-      String lokasi, String pengirim) async {
+  Future<bool> kirimticket(
+      String kodebarang,
+      String namabarang,
+      String keluhan,
+      String lokasi,
+      String gedung,
+      String pengirim,
+      String teknisi,
+      String kodebagian) async {
     Map<String, String> header = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -106,7 +113,10 @@ class SiapApiService {
             "namabarang": namabarang,
             "keluhan": keluhan,
             "lokasi": lokasi,
-            "pengirim": pengirim
+            "gedung": gedung,
+            "pengirim": pengirim,
+            "teknisi": teknisi,
+            "kodebagian": kodebagian
           }));
       if (respond.statusCode == 200) {
         return true;

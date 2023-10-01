@@ -118,7 +118,7 @@ class _ChiefHomeState extends State<ChiefHome> {
               radius: 50,
               backgroundColor: Colors.white,
               backgroundImage: NetworkImage(
-                  "https://www.astronauts.id/blog/wp-content/uploads/2023/04/Semangka-Buah-Segar-yang-Memiliki-Banyak-Manfaat-Bagi-Tubuh.jpg"),
+                  "https://media.suara.com/suara-partners/manado/thumbs/653x367/2023/08/19/1-dian.png"),
             ),
           ),
         ],
@@ -141,15 +141,24 @@ class _ChiefHomeState extends State<ChiefHome> {
                 iconColor: Colors.orange,
                 label: "MK Sewing",
                 onPres: () {
-                  context.goNamed('mksewing',
-                      params: {'gedung': spGedung, 'kodebagian': 'MKS'});
+                  context.goNamed('mksewing', params: {
+                    'gedung': spGedung,
+                    'kodebagian': 'MKS',
+                    'pid': spPid
+                  });
                 },
               ),
               MenuIcon(
                 icon: Icons.add_to_home_screen,
                 iconColor: Colors.green,
                 label: "MK Listrik",
-                onPres: () {},
+                onPres: () {
+                  context.goNamed('mksewing', params: {
+                    'gedung': spGedung,
+                    'kodebagian': 'MKL',
+                    'pid': spPid
+                  });
+                },
               ),
               MenuIcon(
                 icon: Icons.deck_rounded,

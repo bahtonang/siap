@@ -6,7 +6,8 @@ import 'package:siap/services/service.dart';
 class MekanikSewing extends StatefulWidget {
   final String? gedung;
   final String? kodebagian;
-  MekanikSewing({super.key, this.gedung, this.kodebagian});
+  final String? pid;
+  MekanikSewing({super.key, this.gedung, this.kodebagian, this.pid});
 
   @override
   State<MekanikSewing> createState() => _MekanikSewingState();
@@ -25,6 +26,8 @@ class _MekanikSewingState extends State<MekanikSewing> {
   List<Lokasi> _lokasi = [];
   Teknisi? _selectedItem;
   Lokasi? _selectedLokasi;
+  String? namaTeknisi;
+  String? namaLokasi;
 
   @override
   void initState() {
@@ -47,8 +50,15 @@ class _MekanikSewingState extends State<MekanikSewing> {
 
   Future savetiket() async {
     siapApiService
-        ?.kirimticket('kdbrg', txtNamabarang.text, txtKeluhan.text,
-            widget.gedung.toString(), 'surti')
+        ?.kirimticket(
+            txtKodebarang.text,
+            txtNamabarang.text,
+            txtKeluhan.text,
+            namaLokasi ?? '',
+            widget.gedung.toString(),
+            widget.pid.toString(),
+            namaTeknisi ?? '',
+            widget.kodebagian.toString())
         .then((value) => true);
     if (true) {
       setState(() {});
@@ -91,9 +101,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Mekanik Sewing'),
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -108,17 +116,28 @@ class _MekanikSewingState extends State<MekanikSewing> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 20.0,
+                          height: 10,
+                        ),
+                        Text(
+                          "Tiket Keluhan",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 2, 23, 211)),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         DropdownButtonFormField<Teknisi>(
                           value: _selectedItem,
-                          items: _items.map((item) {
+                          items: _items.map((Teknisi item) {
                             return DropdownMenuItem<Teknisi>(
                                 child: Text(item.nama), value: item);
                           }).toList(),
-                          onChanged: (newValue) {
+                          onChanged: (Teknisi? newValue) {
                             setState(() {
                               _selectedItem = newValue;
+                              namaTeknisi = newValue?.nama;
                             });
                           },
                           validator: (_selectedItem) => _selectedItem == null
@@ -141,6 +160,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                           onChanged: (newValuelok) {
                             setState(() {
                               _selectedLokasi = newValuelok;
+                              namaLokasi = newValuelok?.nama;
                             });
                           },
                           items: _lokasi.map((itemlok) {

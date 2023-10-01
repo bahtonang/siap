@@ -70,6 +70,14 @@ class Lokasi {
 class Teknisi {
   Teknisi({required this.nama});
   String nama;
+
+  factory Teknisi.fromJson(Map<String, dynamic> json) => Teknisi(
+        nama: json["nama"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "nama": nama,
+      };
 }
 
 //-------------------------------------------------------
@@ -89,4 +97,26 @@ class TCard {
   String checkout;
   String checkoutcount;
   String overtime;
+}
+
+List<Teknese> tekneseFromJson(String str) =>
+    List<Teknese>.from(json.decode(str).map((x) => Teknese.fromJson(x)));
+
+String tekneseToJson(List<Teknese> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class Teknese {
+  String nama;
+
+  Teknese({
+    required this.nama,
+  });
+
+  factory Teknese.fromJson(Map<String, dynamic> json) => Teknese(
+        nama: json["nama"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "nama": nama,
+      };
 }

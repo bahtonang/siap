@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+
 import 'package:siap/constans.dart';
 import 'package:siap/models/menus.dart';
-import 'package:siap/component/appbar2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:badges/badges.dart' as badges;
 
-class MenkanikSewing extends StatefulWidget {
+class HomeMksewing extends StatefulWidget {
   @override
-  _MenkanikSewingState createState() => new _MenkanikSewingState();
+  _HomeMksewingState createState() => new _HomeMksewingState();
 }
 
-class _MenkanikSewingState extends State<MenkanikSewing> {
+class _HomeMksewingState extends State<HomeMksewing> {
+  int _unRead = 0;
+  late bool _showPesan;
+  Color color = Colors.red;
   late SharedPreferences _preferences;
   late String _storedValue = "";
 
@@ -35,7 +39,45 @@ class _MenkanikSewingState extends State<MenkanikSewing> {
   Widget build(BuildContext context) {
     return new SafeArea(
       child: new Scaffold(
-        appBar: new GojekAppBar(),
+        appBar: AppBar(
+          elevation: 0.25,
+          backgroundColor: Colors.white,
+          flexibleSpace: Container(
+            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  "assets/images/logo.png",
+                  height: 50,
+                  width: 100,
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      badges.Badge(
+                        position: badges.BadgePosition.topEnd(top: 0, end: 3),
+                        badgeAnimation: badges.BadgeAnimation.slide(),
+                        badgeStyle: badges.BadgeStyle(badgeColor: Colors.red),
+                        badgeContent: Text(
+                          _unRead.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.email_outlined,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         backgroundColor: Colors.white,
         body: new Container(
           child: new ListView(
@@ -160,7 +202,12 @@ class _MenkanikSewingState extends State<MenkanikSewing> {
                 icon: Icons.article_outlined,
                 iconColor: Colors.orange,
                 label: "SlipGaji",
-                onPres: () {},
+                onPres: () {
+                  _showPesan = false;
+                  setState(() {
+                    _unRead--;
+                  });
+                },
               ),
             ],
           ),

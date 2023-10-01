@@ -25,12 +25,13 @@ class MyApp extends StatelessWidget {
         },
         routes: [
           GoRoute(
-            path: 'mksewing/:gedung/:kodebagian',
+            path: 'mksewing/:gedung/:kodebagian/:pid',
             name: 'mksewing',
             builder: (context, state) {
               return MekanikSewing(
                 gedung: state.params['gedung'],
                 kodebagian: state.params['kodebagian'],
+                pid: state.params['pid'],
               );
             },
           ),
