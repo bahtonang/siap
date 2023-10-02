@@ -11,8 +11,8 @@ class HomeMksewing extends StatefulWidget {
 }
 
 class _HomeMksewingState extends State<HomeMksewing> {
-  int _unRead = 0;
-  late bool _showPesan;
+  int _jumlahPesan = 0;
+  //late bool _showPesan;
   Color color = Colors.red;
   late SharedPreferences _preferences;
   late String _storedValue = "";
@@ -59,8 +59,9 @@ class _HomeMksewingState extends State<HomeMksewing> {
                         position: badges.BadgePosition.topEnd(top: 0, end: 3),
                         badgeAnimation: badges.BadgeAnimation.slide(),
                         badgeStyle: badges.BadgeStyle(badgeColor: Colors.red),
+                        showBadge: _jumlahPesan == 0 ? false : true,
                         badgeContent: Text(
-                          _unRead.toString(),
+                          _jumlahPesan.toString(),
                           style: TextStyle(color: Colors.white),
                         ),
                         child: IconButton(
@@ -203,10 +204,9 @@ class _HomeMksewingState extends State<HomeMksewing> {
                 iconColor: Colors.orange,
                 label: "SlipGaji",
                 onPres: () {
-                  _showPesan = false;
-                  setState(() {
-                    _unRead--;
-                  });
+                  // _showPesan = false;
+                  _jumlahPesan = 2;
+                  setState(() {});
                 },
               ),
             ],

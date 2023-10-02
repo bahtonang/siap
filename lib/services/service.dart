@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class SiapApiService {
   Client client = Client();
-  static const String url = "http://192.168.19.3/apisiap/public/";
+  static const String url = "http://192.168.32.1/apisiap/public/";
 
   Future<Person?> login(String pid, String pass) async {
     try {
@@ -131,5 +131,45 @@ class SiapApiService {
       );
     }
     return false;
+  }
+
+  Future<List<Tiket?>> getTiket(String gedung) async {
+    try {
+      var respond = await client.get(Uri.parse("$url/tiket/$gedung"));
+      if (respond.statusCode == 200) {
+        var jsonData = json.decode(respond.body);
+        var jsonArray = jsonData['data'];
+        List<Tiket> listtiket = [];
+        for (var data in jsonArray) {
+          Tiket tiket = Tiket(
+              notiket: data["notiket"],
+              tgl: data["tgl"],
+              kodebarang: data["kodebarang"],
+              namabarang: data["namabarang"],
+              keluhan: data["keluhan"],
+              lokasi: data["lokasi"],
+              gedung: data["gedung"],
+              pengirim: data["pengirim"],
+              teknisi: data["teknisi"],
+              mulai: data["mulai"],
+              selesai: data["selesai"],
+              statustiket: data["statustiket"],
+              baca: data["baca"],
+              tutup: data["tutup"],
+              keterangan: data["keterangan"]);
+          listtiket.add(tiket);
+        }
+        return listtiket;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Error $e',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+    return [];
   }
 }
