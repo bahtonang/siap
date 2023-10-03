@@ -176,7 +176,9 @@ class _ChiefHomeState extends State<ChiefHome> {
                 icon: Icons.article_outlined,
                 iconColor: Colors.orange,
                 label: "Tiket",
-                onPres: () {},
+                onPres: () {
+                  context.goNamed('tiketgedung', params: {'gedung': spGedung});
+                },
               ),
             ],
           ),
