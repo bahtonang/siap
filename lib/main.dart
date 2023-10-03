@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:siap/clients/profile.dart';
 
 import 'package:siap/landingpage/landingpage.dart';
 import 'package:siap/constans.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
         path: '/login',
         name: 'login',
         builder: (context, state) {
-          return LoginPage();
+          return ProfilePage();
+//            return LoginPage();
         }),
     GoRoute(
       path: '/',

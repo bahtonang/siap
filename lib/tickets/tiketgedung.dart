@@ -68,6 +68,9 @@ class _TiketGedungState extends State<TiketGedung> {
   Widget _dataTiket(List<Tiket?> list) {
     return Column(
       children: [
+        SizedBox(
+          height: 20,
+        ),
         Expanded(
           child: ListView.separated(
             separatorBuilder: (BuildContext context, int i) =>
