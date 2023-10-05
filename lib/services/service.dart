@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class SiapApiService {
   Client client = Client();
-  static const String url = "http://192.168.32.1/apisiap/public/";
+  static const String url = "http://192.168.19.4/apisiap/public/";
 
   Future<Person?> login(String pid, String pass) async {
     try {
@@ -212,13 +212,14 @@ class SiapApiService {
     return [];
   }
 
-  Future<void> kirimPesan(
+  Future<int?> kirimPesan(
       String alamat, String rahasia, String hp, String pesan) async {
     Map<String, String> header = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
       'Authorization': '$rahasia'
     };
+    int hasil = 0;
     final request = await client.post(Uri.parse("$alamat"),
         headers: header,
         body: json.encode(
@@ -231,11 +232,13 @@ class SiapApiService {
         ));
     if (request.statusCode == 200) {
       var result = jsonDecode(request.body);
-
-      print(result['code']);
-      return result['code'];
+      hasil = result['code'];
+      if (hasil == 200) {
+        return 1;
+      }
     } else {
-      return null;
+      return 0;
     }
+    return 0;
   }
 }

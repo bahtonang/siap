@@ -106,13 +106,14 @@ class _MekanikSewingState extends State<MekanikSewing> {
                     "\n" +
                     txtKeluhan.text;
                 siapApiService
-                    ?.kirimPesan(urlonesend ?? '', hpTeknisi ?? '',
-                        hpTeknisi ?? '', pesan)
+                    ?.kirimPesan(
+                        urlonesend ?? '', apikey ?? '', hpTeknisi ?? '', pesan)
                     .then((value) {
                   txtKodebarang.clear();
                   txtKeluhan.clear();
                   txtNamabarang.clear();
                 });
+
                 context.goNamed('menuutama');
               },
             ),
