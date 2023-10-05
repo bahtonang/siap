@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   String namauser = "";
   String namagedung = "";
   String nopid = "";
+  String? token;
   SiapApiService? siapApiService;
 
   //late SharedPreferences _prefs;
@@ -33,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
     prefs.setString('sp_pid', nopid);
     prefs.setString('sp_nama', namauser);
     prefs.setString('sp_gedung', namagedung);
+    prefs.setString('sp_token', token ?? '');
   }
 
   @override
@@ -130,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
           nopid = value.user.pid;
           namauser = value.user.nama;
           namagedung = value.user.gedung;
+          token = value.accessToken;
           savePref();
 
           context.pushNamed('menuutama');

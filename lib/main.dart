@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
         path: '/login',
         name: 'login',
         builder: (context, state) {
-          return ProfilePage();
-//            return LoginPage();
+          //  return ProfilePage();
+          return LoginPage();
         }),
     GoRoute(
       path: '/',
@@ -28,13 +28,14 @@ class MyApp extends StatelessWidget {
       },
       routes: [
         GoRoute(
-          path: 'mksewing/:gedung/:kodebagian/:pid',
+          path: 'mksewing/:gedung/:kodebagian/:pid/:token',
           name: 'mksewing',
           builder: (context, state) {
             return MekanikSewing(
               gedung: state.params['gedung'],
               kodebagian: state.params['kodebagian'],
               pid: state.params['pid'],
+              token: state.params['token'],
             );
           },
         ),

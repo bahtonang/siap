@@ -7,7 +7,9 @@ class MekanikSewing extends StatefulWidget {
   final String? gedung;
   final String? kodebagian;
   final String? pid;
-  MekanikSewing({super.key, this.gedung, this.kodebagian, this.pid});
+  final String? token;
+  MekanikSewing(
+      {super.key, this.gedung, this.kodebagian, this.pid, this.token});
 
   @override
   State<MekanikSewing> createState() => _MekanikSewingState();
@@ -24,26 +26,40 @@ class _MekanikSewingState extends State<MekanikSewing> {
 
   List<Teknisi> _items = [];
   List<Lokasi> _lokasi = [];
-  Teknisi? _selectedItem;
+  Teknisi? _selectedTeknisi;
   Lokasi? _selectedLokasi;
   String? namaTeknisi;
+  String? hpTeknisi;
+  String? nomorHp;
   String? namaLokasi;
+  String? urlonesend;
+  String? apikey;
 
   @override
   void initState() {
     super.initState();
     siapApiService = SiapApiService();
     siapApiService
-        ?.getTeknisi(widget.gedung.toString(), widget.kodebagian.toString())
+        ?.getTeknisi(widget.gedung.toString(), widget.kodebagian.toString(),
+            widget.token.toString())
         .then((value) {
       setState(() {
         _items = value;
       });
     });
 
-    siapApiService?.getLokasi(widget.gedung.toString()).then((valuelokasi) {
+    siapApiService
+        ?.getLokasi(widget.gedung.toString(), widget.token.toString())
+        .then((valuelokasi) {
       setState(() {
         _lokasi = valuelokasi;
+      });
+    });
+
+    siapApiService?.getOnesend(widget.token.toString()).then((value) {
+      setState(() {
+        urlonesend = value?.data.alamat;
+        apikey = value?.data.rahasia;
       });
     });
   }
@@ -61,10 +77,6 @@ class _MekanikSewingState extends State<MekanikSewing> {
             widget.kodebagian.toString())
         .then((value) => true);
     if (true) {
-      setState(() {});
-      txtKodebarang.clear();
-      txtKeluhan.clear();
-      txtNamabarang.clear();
       await _showMyDialog();
     }
   }
@@ -88,7 +100,19 @@ class _MekanikSewingState extends State<MekanikSewing> {
             TextButton(
               child: const Text('Tutup'),
               onPressed: () {
-                //Navigator.of(context).pop();
+                final String pesan = txtNamabarang.text +
+                    "\n" +
+                    namaLokasi.toString() +
+                    "\n" +
+                    txtKeluhan.text;
+                siapApiService
+                    ?.kirimPesan(urlonesend ?? '', hpTeknisi ?? '',
+                        hpTeknisi ?? '', pesan)
+                    .then((value) {
+                  txtKodebarang.clear();
+                  txtKeluhan.clear();
+                  txtNamabarang.clear();
+                });
                 context.goNamed('menuutama');
               },
             ),
@@ -129,20 +153,22 @@ class _MekanikSewingState extends State<MekanikSewing> {
                           height: 20,
                         ),
                         DropdownButtonFormField<Teknisi>(
-                          value: _selectedItem,
+                          value: _selectedTeknisi,
                           items: _items.map((Teknisi item) {
                             return DropdownMenuItem<Teknisi>(
                                 child: Text(item.nama), value: item);
                           }).toList(),
                           onChanged: (Teknisi? newValue) {
                             setState(() {
-                              _selectedItem = newValue;
+                              _selectedTeknisi = newValue;
                               namaTeknisi = newValue?.nama;
+                              hpTeknisi = newValue?.hp;
                             });
                           },
-                          validator: (_selectedItem) => _selectedItem == null
-                              ? 'Nama Harus di pilih'
-                              : null,
+                          validator: (_selectedTeknisi) =>
+                              _selectedTeknisi == null
+                                  ? 'Nama Harus di pilih'
+                                  : null,
                           decoration: InputDecoration(
                               labelText: 'Pilih Nama',
                               border: OutlineInputBorder(
@@ -167,9 +193,10 @@ class _MekanikSewingState extends State<MekanikSewing> {
                             return DropdownMenuItem<Lokasi>(
                                 value: itemlok, child: Text(itemlok.nama));
                           }).toList(),
-                          validator: (_selectedItem) => _selectedItem == null
-                              ? 'Lokasi Harus di pilih'
-                              : null,
+                          validator: (_selectedTeknisi) =>
+                              _selectedTeknisi == null
+                                  ? 'Lokasi Harus di pilih'
+                                  : null,
                           decoration: InputDecoration(
                               labelText: 'Pilih Lokasi',
                               border: OutlineInputBorder(
@@ -207,6 +234,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                             return null;
                           },
                           controller: txtNamabarang,
+                          textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             labelText: 'Nama Barang',
@@ -226,6 +254,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                             return null;
                           },
                           controller: txtKeluhan,
+                          textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.multiline,
                           maxLines: 2,
                           decoration: InputDecoration(

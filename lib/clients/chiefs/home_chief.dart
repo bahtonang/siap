@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:siap/component/siapappbar.dart';
 import 'package:siap/models/menus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:siap/models/model.dart';
+import 'package:siap/services/service.dart';
 
 class ChiefHome extends StatefulWidget {
   const ChiefHome({super.key});
@@ -16,6 +18,8 @@ class _ChiefHomeState extends State<ChiefHome> {
   late String spNama = "";
   late String spGedung = "";
   late String spPid = "";
+  late String? spToken;
+  SiapApiService? siapApiService;
 
   Future<void> _initSharedPreferences() async {
     _preferences = await SharedPreferences.getInstance();
@@ -27,6 +31,7 @@ class _ChiefHomeState extends State<ChiefHome> {
       spPid = _preferences.getString("sp_pid") ?? "";
       spNama = _preferences.getString("sp_nama") ?? "";
       spGedung = _preferences.getString("sp_gedung") ?? "";
+      spToken = _preferences.getString("sp_token") ?? "";
     });
   }
 
@@ -34,6 +39,7 @@ class _ChiefHomeState extends State<ChiefHome> {
   void initState() {
     super.initState();
     _initSharedPreferences();
+    siapApiService = SiapApiService();
   }
 
   @override
@@ -144,7 +150,8 @@ class _ChiefHomeState extends State<ChiefHome> {
                   context.goNamed('mksewing', params: {
                     'gedung': spGedung,
                     'kodebagian': 'MKS',
-                    'pid': spPid
+                    'pid': spPid,
+                    'token': spToken ?? '',
                   });
                 },
               ),

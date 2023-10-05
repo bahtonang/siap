@@ -32,15 +32,48 @@ class SiapApiService {
     return null;
   }
 
-  Future<List<Teknisi>> getTeknisi(String gedung, kodebagian) async {
-    var respond =
-        await client.get(Uri.parse("$url/teknisi/$gedung/$kodebagian"));
+  Future<Onesend?> getOnesend(String token) async {
+    Map<String, String> header = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    try {
+      var respond =
+          await client.get(Uri.parse("$url/onesend"), headers: header);
+      if (respond.statusCode == 200) {
+        final data = onesendFromJson(respond.body);
+
+        return data;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Terjadi Kesalahan Koneksi Ke Server, Mungkin dia Lelah...!',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+    return null;
+  }
+
+  Future<List<Teknisi>> getTeknisi(
+      String gedung, String kodebagian, String token) async {
+    Map<String, String> header = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var respond = await client
+        .get(Uri.parse("$url/teknisi/$gedung/$kodebagian"), headers: header);
     if (respond.statusCode == 200) {
       var jsonData = jsonDecode(respond.body);
       var jsonArray = jsonData['data'];
       List<Teknisi> listteknisi = [];
       for (var data in jsonArray) {
-        Teknisi teknisi = Teknisi(nama: data['nama']);
+        Teknisi teknisi = Teknisi(nama: data['nama'], hp: data['hp']);
         listteknisi.add(teknisi);
       }
       return listteknisi;
@@ -48,7 +81,7 @@ class SiapApiService {
     return [];
   }
 
-  Future<List<Personal>> getPersonal(String gedung, statusstaf) async {
+  Future<List<Personal>> getPersonal(String gedung, String statusstaf) async {
     var respond =
         await client.get(Uri.parse("$url/personal/$gedung/$statusstaf"));
     if (respond.statusCode == 200) {
@@ -65,9 +98,15 @@ class SiapApiService {
     return [];
   }
 
-  Future<List<Lokasi>> getLokasi(String gedung) async {
+  Future<List<Lokasi>> getLokasi(String gedung, String token) async {
+    Map<String, String> header = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
     try {
-      var respond = await client.get(Uri.parse("$url/lokasi/$gedung"));
+      var respond =
+          await client.get(Uri.parse("$url/lokasi/$gedung"), headers: header);
       if (respond.statusCode == 200) {
         var jsonData = json.decode(respond.body);
         var jsonArray = jsonData['data'];
@@ -171,5 +210,32 @@ class SiapApiService {
       );
     }
     return [];
+  }
+
+  Future<void> kirimPesan(
+      String alamat, String rahasia, String hp, String pesan) async {
+    Map<String, String> header = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': '$rahasia'
+    };
+    final request = await client.post(Uri.parse("$alamat"),
+        headers: header,
+        body: json.encode(
+          {
+            "recipient_type": "individual",
+            "to": "$hp",
+            "type": "text",
+            "text": {"body": "$pesan"}
+          },
+        ));
+    if (request.statusCode == 200) {
+      var result = jsonDecode(request.body);
+
+      print(result['code']);
+      return result['code'];
+    } else {
+      return null;
+    }
   }
 }
