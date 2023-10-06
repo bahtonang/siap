@@ -15,7 +15,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  final String bagian = 'MKS';
+  final String bagian = 'SPV';
 
   pilihWidget() {
     if (bagian == 'SPV') {

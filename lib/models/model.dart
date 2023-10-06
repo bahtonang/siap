@@ -68,16 +68,18 @@ class Lokasi {
 }
 
 class Teknisi {
-  Teknisi({required this.nama, required this.hp});
+  Teknisi({required this.nama, required this.hp, required this.pid});
   String nama;
+  String pid;
   String hp;
 
   factory Teknisi.fromJson(Map<String, dynamic> json) => Teknisi(
         nama: json["nama"],
         hp: json['hp'],
+        pid: json['pid'],
       );
 
-  Map<String, dynamic> toJson() => {"nama": nama, "hp": hp};
+  Map<String, dynamic> toJson() => {"nama": nama, "hp": hp, "pid": pid};
 }
 
 Onesend onesendFromJson(String str) => Onesend.fromJson(json.decode(str));

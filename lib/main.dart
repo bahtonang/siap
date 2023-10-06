@@ -39,12 +39,12 @@ class MyApp extends StatelessWidget {
             );
           },
         ),
-        GoRoute(
-            path: 'tiketgedung/:gedung',
-            name: 'tiketgedung',
-            builder: (context, state) {
-              return TiketGedung(gedung: state.params['gedung']);
-            })
+        // GoRoute(
+        //     path: 'tiketgedung/:gedung',
+        //     name: 'tiketgedung',
+        //     builder: (context, state) {
+        //        return TiketGedung(gedung: state.params['gedung']);
+        //     })
       ],
     ),
   ], initialLocation: '/login', debugLogDiagnostics: true, routerNeglect: true);

@@ -31,6 +31,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
   String? namaTeknisi;
   String? hpTeknisi;
   String? nomorHp;
+  String? pidTeknisi;
   String? namaLokasi;
   String? urlonesend;
   String? apikey;
@@ -73,7 +74,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
             namaLokasi ?? '',
             widget.gedung.toString(),
             widget.pid.toString(),
-            namaTeknisi ?? '',
+            pidTeknisi ?? '',
             'SENT')
         .then((value) => true);
     if (true) {
@@ -164,6 +165,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
                               _selectedTeknisi = newValue;
                               namaTeknisi = newValue?.nama;
                               hpTeknisi = newValue?.hp;
+                              pidTeknisi = newValue?.pid;
                             });
                           },
                           validator: (_selectedTeknisi) =>
