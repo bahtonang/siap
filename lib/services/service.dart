@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class SiapApiService {
   Client client = Client();
-  static const String url = "http://192.168.19.4/apisiap/public/";
+  static const String url = "http://192.168.32.1/apisiap/public/";
 
   Future<Person?> login(String pid, String pass) async {
     try {
@@ -139,7 +139,7 @@ class SiapApiService {
       String gedung,
       String pengirim,
       String teknisi,
-      String kodebagian) async {
+      String statuskirim) async {
     Map<String, String> header = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -155,7 +155,7 @@ class SiapApiService {
             "gedung": gedung,
             "pengirim": pengirim,
             "teknisi": teknisi,
-            "kodebagian": kodebagian
+            "statuskirim": statuskirim
           }));
       if (respond.statusCode == 200) {
         return true;

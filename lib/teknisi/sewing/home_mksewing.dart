@@ -168,7 +168,7 @@ class _HomeMksewingState extends State<HomeMksewing> {
   Widget _buildGojekServicesMenu() {
     return new SizedBox(
         width: double.infinity,
-        height: 220.0,
+        height: 240.0,
         child: new Container(
           margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: GridView.count(

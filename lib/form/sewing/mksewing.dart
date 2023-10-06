@@ -74,7 +74,7 @@ class _MekanikSewingState extends State<MekanikSewing> {
             widget.gedung.toString(),
             widget.pid.toString(),
             namaTeknisi ?? '',
-            widget.kodebagian.toString())
+            'SENT')
         .then((value) => true);
     if (true) {
       await _showMyDialog();
