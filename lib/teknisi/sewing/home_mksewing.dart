@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:siap/constans.dart';
 import 'package:siap/models/menus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_router/go_router.dart';
 import 'package:badges/badges.dart' as badges;
 
 class HomeMksewing extends StatefulWidget {
@@ -15,7 +15,15 @@ class _HomeMksewingState extends State<HomeMksewing> {
   //late bool _showPesan;
   Color color = Colors.red;
   late SharedPreferences _preferences;
-  late String _storedValue = "";
+  late String nama = '';
+  late String nopid = '';
+  late String? token = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _initSharedPreferences();
+  }
 
   Future<void> _initSharedPreferences() async {
     _preferences = await SharedPreferences.getInstance();
@@ -24,15 +32,10 @@ class _HomeMksewingState extends State<HomeMksewing> {
 
   Future<void> _loadStoredValue() async {
     setState(() {
-      _storedValue = _preferences.getString("pidKey") ?? "";
+      nopid = _preferences.getString("sp_pid") ?? '';
+      token = _preferences.getString("sp_token");
+      nama = _preferences.getString("sp_nama") ?? '';
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _initSharedPreferences();
   }
 
   @override
@@ -141,7 +144,7 @@ class _HomeMksewingState extends State<HomeMksewing> {
                         fontFamily: "NeoSans"),
                   ),
                   Text(
-                    _storedValue.toString(),
+                    nama.toString(),
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -179,7 +182,10 @@ class _HomeMksewingState extends State<HomeMksewing> {
                 icon: Icons.directions_bike,
                 iconColor: GojekPalette.menuRide,
                 label: "Profile",
-                onPres: () {},
+                onPres: () {
+                  context.goNamed('mytiket',
+                      params: {'pid': nopid, 'token': token ?? ''});
+                },
               ),
               MenuIcon(
                 icon: Icons.add_to_home_screen,

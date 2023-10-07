@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:siap/services/service.dart';
 import 'package:siap/models/model.dart';
+import 'package:siap/teknisi/sewing/myticketdetail.dart';
 
 class MyTiket extends StatefulWidget {
-  final String? gedung;
-  MyTiket({super.key, this.gedung});
+  final String? nopid;
+  final String? token;
+  MyTiket({super.key, this.nopid, this.token});
 
   @override
   State<MyTiket> createState() => _MyTiketState();
@@ -23,11 +25,13 @@ class _MyTiketState extends State<MyTiket> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('List Tiket'),
+        title: Text('My Tickets'),
       ),
       body: Container(
+        color: Colors.lime[50],
         child: FutureBuilder(
-            future: siapApiService?.getTiket(widget.gedung.toString()),
+            future: siapApiService?.getMytiket(
+                widget.nopid.toString(), widget.token.toString()),
             builder: (BuildContext context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -78,7 +82,9 @@ class _MyTiketState extends State<MyTiket> {
             itemCount: list.length,
             itemBuilder: (context, index) {
               Tiket? tiket = list[index]!;
-              return ListTile(
+              return Container(
+                color: Colors.lime[50],
+                child: ListTile(
                   title: Column(
                     children: [
                       Row(
@@ -90,29 +96,51 @@ class _MyTiketState extends State<MyTiket> {
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Text(tiket.lokasi ?? '',
-                              style: TextStyle(fontSize: 16.0)),
-                        ],
-                      ),
                     ],
                   ),
                   subtitle: Column(
                     children: [
                       Row(
                         children: [
-                          Text(tiket.keluhan ?? '',
+                          Text(tiket.lokasi ?? '',
+                              style: TextStyle(fontSize: 16.0)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(tiket.keluhan ?? '',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color:
+                                        const Color.fromARGB(255, 247, 1, 1))),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(tiket.statustiket ?? '',
                               style: TextStyle(
-                                  fontSize: 16.0, color: Colors.black)),
+                                  fontSize: 16.0, color: Colors.blue)),
                         ],
                       ),
                     ],
                   ),
                   trailing: Icon(
                     Icons.arrow_forward_rounded,
-                    color: Colors.blue,
-                  ));
+                    color: Color.fromARGB(255, 20, 5, 241),
+                    size: 30,
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MktiketDetail(
+                                  notiket: tiket.notiket,
+                                )));
+                  },
+                ),
+              );
             },
           ),
         ),

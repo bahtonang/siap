@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   String namauser = "";
   String namagedung = "";
   String nopid = "";
+  String kodebagian = '';
   String? token;
   SiapApiService? siapApiService;
 
@@ -35,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     prefs.setString('sp_nama', namauser);
     prefs.setString('sp_gedung', namagedung);
     prefs.setString('sp_token', token ?? '');
+    prefs.setString('sp_kodebag', kodebagian);
   }
 
   @override
@@ -122,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleLoginButton() {
     if (loginFormkey.currentState!.validate()) {
-      siapApiService?.login('SF13773', '1234').then((value) {
+      siapApiService?.login('SF1239', '1234').then((value) {
         if (value == null) {
           setState(() {
             errorMsg = "PID atau Password Salah";
@@ -132,7 +134,9 @@ class _LoginPageState extends State<LoginPage> {
           nopid = value.user.pid;
           namauser = value.user.nama;
           namagedung = value.user.gedung;
+          kodebagian = value.user.kodebagian;
           token = value.accessToken;
+          print(token);
           savePref();
 
           context.pushNamed('menuutama');

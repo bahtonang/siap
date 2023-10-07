@@ -243,6 +243,8 @@ class SiapApiService {
     return 0;
   }
 
+  //tampilkan tiket berdasarkan PID teknisi / perorangan
+
   Future<List<Tiket?>> getMytiket(String pid, String token) async {
     Map<String, String> header = {
       'Content-type': 'application/json',
@@ -252,6 +254,48 @@ class SiapApiService {
     try {
       var respond =
           await client.get(Uri.parse("$url/mytiket/$pid"), headers: header);
+      if (respond.statusCode == 200) {
+        var jsonData = json.decode(respond.body);
+        var jsonArray = jsonData['data'];
+        List<Tiket> listtiket = [];
+        for (var data in jsonArray) {
+          Tiket tiket = Tiket(
+              notiket: data["notiket"],
+              tgl: data["tgl"],
+              kodebarang: data["kodebarang"] ?? '',
+              namabarang: data["namabarang"],
+              keluhan: data["keluhan"],
+              lokasi: data["lokasi"],
+              gedung: data["gedung"] ?? '',
+              pengirim: data["pengirim"],
+              teknisi: data["teknisi"],
+              mulai: data["mulai"],
+              selesai: data["selesai"],
+              statustiket: data["statustiket"],
+              baca: data["baca"],
+              tutup: data["tutup"],
+              keterangan: data["keterangan"]);
+          listtiket.add(tiket);
+        }
+        return listtiket;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Error $e',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+    return [];
+  }
+
+//tampilan tiket berdasarkan nomor tiket
+
+  Future<List<Tiket?>> tiketAction(String no) async {
+    try {
+      var respond = await client.get(Uri.parse("$url/tiketaction/$no"));
       if (respond.statusCode == 200) {
         var jsonData = json.decode(respond.body);
         var jsonArray = jsonData['data'];

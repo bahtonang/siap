@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:siap/clients/chiefs/home_chief.dart';
 import 'package:siap/constans.dart';
-import 'package:siap/clients/managers/home_manager.dart';
-import 'package:siap/form/sewing/mksewing.dart';
 import 'package:siap/teknisi/sewing/home_mksewing.dart';
-
-// import 'package:siap/manager/home.dart';
-//import 'package:siap/spv/spv_home.dart';
-//import 'package:siap/teknisi/mekaniksewing.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -15,15 +10,31 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  final String bagian = 'SPV';
+  late String bagian = '';
+  late SharedPreferences _preferences;
+
+  Future<void> _initSharedPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
+    _loadStoredValue();
+  }
+
+  Future<void> _loadStoredValue() async {
+    setState(() {
+      bagian = _preferences.getString("sp_kodebag") ?? "";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initSharedPreferences();
+  }
 
   pilihWidget() {
     if (bagian == 'SPV') {
-      //return ManagerHome();
       return ChiefHome();
     } else if (bagian == 'MKS') {
       return HomeMksewing();
-      //return ManagerHome();
     }
   }
 

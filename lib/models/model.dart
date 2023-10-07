@@ -36,23 +36,23 @@ class User {
     required this.pid,
     required this.nama,
     required this.gedung,
+    required this.kodebagian,
   });
 
   String pid;
   String nama;
   String gedung;
+  String kodebagian;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         pid: json["pid"],
         nama: json["nama"],
         gedung: json["gedung"],
+        kodebagian: json['kodebagian'],
       );
 
-  Map<String, dynamic> toJson() => {
-        "pid": pid,
-        "nama": nama,
-        "gedung": gedung,
-      };
+  Map<String, dynamic> toJson() =>
+      {"pid": pid, "nama": nama, "gedung": gedung, "kodebagian": kodebagian};
 }
 
 class Personal {
