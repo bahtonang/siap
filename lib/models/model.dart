@@ -196,3 +196,103 @@ class Tiket {
         "keterangan": keterangan,
       };
 }
+
+Notiket notiketFromJson(String str) => Notiket.fromJson(json.decode(str));
+
+String notiketToJson(Notiket datanotiket) => json.encode(datanotiket.toJson());
+
+class Notiket {
+  String status;
+  Datanotiket datanotiket;
+
+  Notiket({
+    required this.status,
+    required this.datanotiket,
+  });
+
+  factory Notiket.fromJson(Map<String, dynamic> json) => Notiket(
+        status: json["status"],
+        datanotiket: Datanotiket.fromJson(json["data"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "data": datanotiket.toJson(),
+      };
+}
+
+class Datanotiket {
+  String notiket;
+  DateTime tgl;
+  String kodebarang;
+  String namabarang;
+  String keluhan;
+  String lokasi;
+  String gedung;
+  String pengirim;
+  String teknisi;
+  dynamic mulai;
+  dynamic selesai;
+  String statuskirim;
+  String statustiket;
+  String baca;
+  dynamic tutup;
+  dynamic keterangan;
+
+  Datanotiket({
+    required this.notiket,
+    required this.tgl,
+    required this.kodebarang,
+    required this.namabarang,
+    required this.keluhan,
+    required this.lokasi,
+    required this.gedung,
+    required this.pengirim,
+    required this.teknisi,
+    required this.mulai,
+    required this.selesai,
+    required this.statuskirim,
+    required this.statustiket,
+    required this.baca,
+    required this.tutup,
+    required this.keterangan,
+  });
+
+  factory Datanotiket.fromJson(Map<String, dynamic> json) => Datanotiket(
+        notiket: json["notiket"],
+        tgl: DateTime.parse(json["tgl"]),
+        kodebarang: json["kodebarang"],
+        namabarang: json["namabarang"],
+        keluhan: json["keluhan"],
+        lokasi: json["lokasi"],
+        gedung: json["gedung"],
+        pengirim: json["pengirim"],
+        teknisi: json["teknisi"],
+        mulai: json["mulai"],
+        selesai: json["selesai"],
+        statuskirim: json["statuskirim"],
+        statustiket: json["statustiket"],
+        baca: json["baca"],
+        tutup: json["tutup"],
+        keterangan: json["keterangan"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "notiket": notiket,
+        "tgl": tgl,
+        "kodebarang": kodebarang,
+        "namabarang": namabarang,
+        "keluhan": keluhan,
+        "lokasi": lokasi,
+        "gedung": gedung,
+        "pengirim": pengirim,
+        "teknisi": teknisi,
+        "mulai": mulai,
+        "selesai": selesai,
+        "statuskirim": statuskirim,
+        "statustiket": statustiket,
+        "baca": baca,
+        "tutup": tutup,
+        "keterangan": keterangan,
+      };
+}

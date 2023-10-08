@@ -12,21 +12,22 @@ class MktiketDetail extends StatefulWidget {
 
 class _MktiketDetailState extends State<MktiketDetail> {
   SiapApiService? siapApiService;
+  String? tiketno;
 
   @override
   void initState() {
     siapApiService = SiapApiService();
     super.initState();
+    _getData();
   }
 
-  // getData() async {
-  //   final respond =
-  //       await siapApiService?.tiketAction(widget.notiket.toString());
-  //   setState(() {
-  //     tiketlist = respond;
-  //     print(tiketlist);
-  //   });
-  // }
+  _getData() async {
+    final respond =
+        await siapApiService?.tiketAction(widget.notiket.toString());
+    setState(() {
+      tiketno = respond!.datanotiket.notiket;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,30 +41,15 @@ class _MktiketDetailState extends State<MktiketDetail> {
             padding: const EdgeInsets.only(top: 40),
             child: Column(
               children: [
-                FutureBuilder<List<Tiket?>>(
-                    future:
-                        siapApiService?.tiketAction(widget.notiket.toString()),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState != ConnectionState.done) {
-                        return Container();
-                      } else if (snapshot.hasError) {
-                        return Container();
-                      } else {
-                        List<Tiket?> list = snapshot.data ?? [];
-                        return ListView.builder(
-                            itemCount: list.length,
-                            itemBuilder: (context, index) {
-                              Tiket? tikets = list[index];
-                              return Column(
-                                children: [
-                                  Text('$tikets.keluhan'),
-                                ],
-                              );
-                            });
-                      }
-                    }),
                 SizedBox(
                   height: 20.0,
+                ),
+                ListTile(
+                  title: Text('No Tiket'),
+                  subtitle: Text(tiketno ?? ''),
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
@@ -88,8 +74,7 @@ class _MktiketDetailState extends State<MktiketDetail> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 300),
-                Text(widget.notiket.toString()),
+                SizedBox(height: 30),
               ],
             ),
           ),

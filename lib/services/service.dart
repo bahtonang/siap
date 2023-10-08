@@ -293,33 +293,12 @@ class SiapApiService {
 
 //tampilan tiket berdasarkan nomor tiket
 
-  Future<List<Tiket?>> tiketAction(String no) async {
+  Future<Notiket?> tiketAction(String no) async {
     try {
       var respond = await client.get(Uri.parse("$url/tiketaction/$no"));
       if (respond.statusCode == 200) {
-        var jsonData = json.decode(respond.body);
-        var jsonArray = jsonData['data'];
-        List<Tiket> listtiket = [];
-        for (var data in jsonArray) {
-          Tiket tiket = Tiket(
-              notiket: data["notiket"],
-              tgl: data["tgl"],
-              kodebarang: data["kodebarang"] ?? '',
-              namabarang: data["namabarang"],
-              keluhan: data["keluhan"],
-              lokasi: data["lokasi"],
-              gedung: data["gedung"] ?? '',
-              pengirim: data["pengirim"],
-              teknisi: data["teknisi"],
-              mulai: data["mulai"],
-              selesai: data["selesai"],
-              statustiket: data["statustiket"],
-              baca: data["baca"],
-              tutup: data["tutup"],
-              keterangan: data["keterangan"]);
-          listtiket.add(tiket);
-        }
-        return listtiket;
+        final data = notiketFromJson(respond.body);
+        return data;
       }
     } catch (e) {
       Fluttertoast.showToast(
@@ -330,6 +309,6 @@ class SiapApiService {
         textColor: Colors.white,
       );
     }
-    return [];
+    return null;
   }
 }
