@@ -311,4 +311,22 @@ class SiapApiService {
     }
     return null;
   }
+
+  Future<bool> tiketStart(String no) async {
+    Map<String, String> header = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    final respond = await client.put(Uri.parse("$url/tiketstart"),
+        headers: header, body: json.encode({"nomor": no}));
+    if (respond.statusCode == 200) {
+      var data = jsonDecode(respond.body)["error"];
+      if (data == false) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
 }

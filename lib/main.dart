@@ -4,6 +4,7 @@ import 'package:siap/constans.dart';
 import 'package:siap/login.dart';
 import 'package:go_router/go_router.dart';
 import 'package:siap/form/sewing/mksewing.dart';
+import 'package:siap/teknisi/sewing/myticketdetail.dart';
 import 'package:siap/teknisi/sewing/mytiket.dart';
 
 void main() => runApp(new MyApp());
@@ -36,20 +37,21 @@ class MyApp extends StatelessWidget {
           },
         ),
         GoRoute(
-            path: 'mytiket/:pid/:token',
-            name: 'mytiket',
+          path: 'mytiket/:pid/:token',
+          name: 'mytiket',
+          builder: (context, state) {
+            return MyTiket(
+              nopid: state.params['pid'],
+              token: state.params['token'],
+            );
+          },
+        ),
+        GoRoute(
+            path: 'tiketaction/:nomor',
+            name: 'tiketaction',
             builder: (context, state) {
-              return MyTiket(
-                nopid: state.params['pid'],
-                token: state.params['token'],
-              );
-            }),
-        // GoRoute(
-        //     path: 'tiketgedung/:gedung',
-        //     name: 'tiketgedung',
-        //     builder: (context, state) {
-        //        return TiketGedung(gedung: state.params['gedung']);
-        //     })
+              return MktiketDetail(notiket: state.params['nomor']);
+            })
       ],
     ),
   ], initialLocation: '/login', debugLogDiagnostics: true, routerNeglect: true);

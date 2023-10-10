@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:siap/services/service.dart';
 import 'package:siap/models/model.dart';
 import 'package:siap/teknisi/sewing/myticketdetail.dart';
@@ -132,12 +133,8 @@ class _MyTiketState extends State<MyTiket> {
                     size: 30,
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MktiketDetail(
-                                  notiket: tiket.notiket,
-                                )));
+                    context.goNamed('tiketaction',
+                        params: {'nomor': tiket.notiket ?? ''});
                   },
                 ),
               );

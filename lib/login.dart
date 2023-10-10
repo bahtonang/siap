@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
           namagedung = value.user.gedung;
           kodebagian = value.user.kodebagian;
           token = value.accessToken;
-          print(token);
+
           savePref();
 
           context.pushNamed('menuutama');
