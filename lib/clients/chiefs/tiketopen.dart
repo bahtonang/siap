@@ -3,16 +3,16 @@ import 'package:go_router/go_router.dart';
 import 'package:siap/services/service.dart';
 import 'package:siap/models/model.dart';
 
-class MyTiket extends StatefulWidget {
+class TicketOpen extends StatefulWidget {
   final String? nopid;
   final String? token;
-  MyTiket({super.key, this.nopid, this.token});
+  TicketOpen({super.key, this.nopid, this.token});
 
   @override
-  State<MyTiket> createState() => _MyTiketState();
+  State<TicketOpen> createState() => _TicketOpenState();
 }
 
-class _MyTiketState extends State<MyTiket> {
+class _TicketOpenState extends State<TicketOpen> {
   SiapApiService? siapApiService;
 
   @override
@@ -30,8 +30,7 @@ class _MyTiketState extends State<MyTiket> {
       body: Container(
         color: Colors.lime[50],
         child: FutureBuilder(
-            future: siapApiService?.getMytiket(
-                widget.nopid.toString(), widget.token.toString()),
+            future: siapApiService?.getOpenticket(widget.nopid.toString()),
             builder: (BuildContext context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:

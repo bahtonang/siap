@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:siap/constans.dart';
 import 'package:siap/models/menus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +17,7 @@ class _HomeMksewingState extends State<HomeMksewing> {
   late String nama = '';
   late String nopid = '';
   late String? token = '';
+  late String photo = "putih.jpg";
 
   @override
   void initState() {
@@ -35,6 +35,7 @@ class _HomeMksewingState extends State<HomeMksewing> {
       nopid = _preferences.getString("sp_pid") ?? '';
       token = _preferences.getString("sp_token");
       nama = _preferences.getString("sp_nama") ?? '';
+      photo = nopid + '.jpg';
     });
   }
 
@@ -92,11 +93,11 @@ class _HomeMksewingState extends State<HomeMksewing> {
                   color: Colors.white,
                   child: new Column(
                     children: <Widget>[
-                      _buildGopayMenu(),
+                      _topMenu(),
                       SizedBox(
                         height: 20.0,
                       ),
-                      _buildGojekServicesMenu(),
+                      _buildMenu(),
                     ],
                   )),
               new Container(
@@ -116,7 +117,7 @@ class _HomeMksewingState extends State<HomeMksewing> {
   }
 
 //header warna biru
-  Widget _buildGopayMenu() {
+  Widget _topMenu() {
     return new Container(
       height: 120.0,
       decoration: new BoxDecoration(
@@ -159,8 +160,10 @@ class _HomeMksewingState extends State<HomeMksewing> {
             child: CircleAvatar(
               radius: 50,
               backgroundColor: Colors.white,
-              backgroundImage: NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3hfDQ3opvjbPAtpfByjhtO4RUCRtik8B5JFOgb6WlF7nhZCGqxWHtzVHXRmYrYxwPCc&usqp=CAU"),
+              backgroundImage:
+                  NetworkImage("http://36.93.18.9:8001/asik/images/" + photo),
+              onBackgroundImageError: (exception, stackTrace) =>
+                  Icon(Icons.people),
             ),
           ),
         ],
@@ -168,10 +171,10 @@ class _HomeMksewingState extends State<HomeMksewing> {
     );
   }
 
-  Widget _buildGojekServicesMenu() {
+  Widget _buildMenu() {
     return new SizedBox(
         width: double.infinity,
-        height: 240.0,
+        height: 250.0,
         child: new Container(
           margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: GridView.count(
@@ -179,9 +182,9 @@ class _HomeMksewingState extends State<HomeMksewing> {
             crossAxisCount: 3,
             children: <Widget>[
               MenuIcon(
-                icon: Icons.directions_bike,
-                iconColor: GojekPalette.menuRide,
-                label: "Profile",
+                icon: Icons.auto_stories,
+                iconColor: Colors.orange,
+                label: "My Tickets",
                 onPres: () {
                   context.goNamed('mytiket',
                       params: {'pid': nopid, 'token': token ?? ''});
@@ -190,30 +193,26 @@ class _HomeMksewingState extends State<HomeMksewing> {
               MenuIcon(
                 icon: Icons.add_to_home_screen,
                 iconColor: Colors.green,
-                label: "Pulang",
+                label: "MK Listrik",
                 onPres: () {},
               ),
               MenuIcon(
                 icon: Icons.deck_rounded,
                 iconColor: Colors.purple,
-                label: "Absen",
+                label: "Umum",
                 onPres: () {},
               ),
               MenuIcon(
                 icon: Icons.auto_stories,
                 iconColor: Colors.green,
-                label: "Kode Gaji ",
+                label: "EDP",
                 onPres: () {},
               ),
               MenuIcon(
                 icon: Icons.article_outlined,
                 iconColor: Colors.orange,
-                label: "SlipGaji",
-                onPres: () {
-                  // _showPesan = false;
-                  _jumlahPesan = 2;
-                  setState(() {});
-                },
+                label: "Tiket",
+                onPres: () {},
               ),
             ],
           ),

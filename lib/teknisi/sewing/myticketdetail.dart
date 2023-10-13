@@ -24,9 +24,9 @@ class _MktiketDetailState extends State<MktiketDetail> {
     _getData();
   }
 
-  _getData() async {
-    final respond =
-        await siapApiService?.tiketAction(widget.notiket.toString());
+  Future _getData() async {
+    var respond = await siapApiService?.tiketAction(widget.notiket.toString());
+
     setState(() {
       loading = false;
       tiketno = respond!.datanotiket.notiket;

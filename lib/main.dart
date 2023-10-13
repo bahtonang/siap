@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:siap/clients/chiefs/tiketopen.dart';
 import 'package:siap/landingpage/landingpage.dart';
 import 'package:siap/constans.dart';
 import 'package:siap/login.dart';
@@ -51,7 +52,14 @@ class MyApp extends StatelessWidget {
             name: 'tiketaction',
             builder: (context, state) {
               return MktiketDetail(notiket: state.params['nomor']);
-            })
+            }),
+        GoRoute(
+          path: 'opentiket/:pid',
+          name: 'opentiket',
+          builder: (context, state) {
+            return TicketOpen(nopid: state.params['pid']);
+          },
+        ),
       ],
     ),
   ], initialLocation: '/login', debugLogDiagnostics: true, routerNeglect: true);

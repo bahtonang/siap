@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleLoginButton() {
     if (loginFormkey.currentState!.validate()) {
-      siapApiService?.login('SF1239', '1234').then((value) {
+      siapApiService?.login('SF02295', '1234').then((value) {
         if (value == null) {
           setState(() {
             errorMsg = "PID atau Password Salah";
@@ -136,9 +136,7 @@ class _LoginPageState extends State<LoginPage> {
           namagedung = value.user.gedung;
           kodebagian = value.user.kodebagian;
           token = value.accessToken;
-
           savePref();
-
           context.pushNamed('menuutama');
         }
       });

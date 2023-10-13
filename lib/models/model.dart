@@ -221,22 +221,22 @@ class Notiket {
 }
 
 class Datanotiket {
-  String notiket;
-  String namabarang;
-  String lokasi;
-  String keluhan;
-  String nama;
-  String bagian;
-  String statustiket;
+  String? notiket;
+  String? namabarang;
+  String? lokasi;
+  String? keluhan;
+  String? nama;
+  String? bagian;
+  String? statustiket;
 
   Datanotiket({
-    required this.notiket,
-    required this.namabarang,
-    required this.lokasi,
-    required this.keluhan,
-    required this.nama,
-    required this.bagian,
-    required this.statustiket,
+    this.notiket,
+    this.namabarang,
+    this.lokasi,
+    this.keluhan,
+    this.nama,
+    this.bagian,
+    this.statustiket,
   });
 
   factory Datanotiket.fromJson(Map<String, dynamic> json) => Datanotiket(

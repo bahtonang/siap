@@ -19,6 +19,7 @@ class _ChiefHomeState extends State<ChiefHome> {
   late String spGedung = "";
   late String spPid = "";
   late String? spToken;
+  late String photo = "putih.jpg";
   SiapApiService? siapApiService;
 
   Future<void> _initSharedPreferences() async {
@@ -32,6 +33,7 @@ class _ChiefHomeState extends State<ChiefHome> {
       spNama = _preferences.getString("sp_nama") ?? "";
       spGedung = _preferences.getString("sp_gedung") ?? "";
       spToken = _preferences.getString("sp_token") ?? "";
+      photo = spPid + '.jpg';
     });
   }
 
@@ -123,8 +125,10 @@ class _ChiefHomeState extends State<ChiefHome> {
             child: CircleAvatar(
               radius: 50,
               backgroundColor: Colors.white,
-              backgroundImage: NetworkImage(
-                  "https://media.suara.com/suara-partners/manado/thumbs/653x367/2023/08/19/1-dian.png"),
+              backgroundImage:
+                  NetworkImage("http://36.93.18.9:8001/asik/images/" + photo),
+              onBackgroundImageError: (exception, stackTrace) =>
+                  Icon(Icons.people),
             ),
           ),
         ],
@@ -182,9 +186,10 @@ class _ChiefHomeState extends State<ChiefHome> {
               MenuIcon(
                 icon: Icons.article_outlined,
                 iconColor: Colors.orange,
-                label: "Tiket",
+                label: "MyTickets",
                 onPres: () {
-                  context.goNamed('tiketgedung', params: {'gedung': spGedung});
+                  context.goNamed('opentiket', params: {'pid': spPid});
+                  // params: {'pid': nopid, 'token': token ?? ''});
                 },
               ),
             ],
@@ -198,21 +203,17 @@ class _ChiefHomeState extends State<ChiefHome> {
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          new Text(
-            "Aktivitas",
-            style: new TextStyle(fontFamily: "NeoSansBold"),
-          ),
           new Padding(
             padding: EdgeInsets.only(top: 8.0),
           ),
           new Text(
-            "Aktifitas Terupdate",
+            "Aktifitas Pabrik",
             style: new TextStyle(fontFamily: "NeoSansBold"),
           ),
           new SizedBox(
             height: 172.0,
             child: FutureBuilder<List>(
-                future: fetchFood(),
+                future: fetchAktifitas(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return new ListView.builder(
@@ -238,61 +239,47 @@ class _ChiefHomeState extends State<ChiefHome> {
     );
   }
 
-  Widget _rowGambar(Food food) {
+  Widget _rowGambar(Aktifitas aktifitas) {
     return new Container(
       margin: EdgeInsets.only(right: 16.0),
       child: new Column(
         children: <Widget>[
           new ClipRRect(
             borderRadius: new BorderRadius.circular(8.0),
-            // child: Image.network(
-            //   food.url,
-            //   width: 132.0,
-            //   height: 132.0,
-            // ),
+            child: Image.network(
+              aktifitas.url,
+              width: 132.0,
+              height: 132.0,
+            ),
           ),
           new Padding(
             padding: EdgeInsets.only(top: 8.0),
-          ),
-          new Text(
-            food.title,
           ),
         ],
       ),
     );
   }
 
-  Future<List<Food>> fetchFood() async {
-    List<Food> _goFoodFeaturedList = [];
-    _goFoodFeaturedList.add(new Food(
-        title: "Steak Andakar",
-        url:
-            'https://upload.wikimedia.org/wikipedia/commons/7/78/Wulan_Guritno_on_Festival_Film_Indonesia_2015.jpg'));
-    _goFoodFeaturedList.add(new Food(
-        title: "Mie Ayam Tumini",
-        url:
-            'https://media.suara.com/suara-partners/manado/thumbs/653x367/2023/08/19/1-dian.png'));
-    _goFoodFeaturedList.add(new Food(
-        title: "Tengkleng Hohah",
-        url:
-            'https://img.antaranews.com/cache/1200x800/2021/08/31/Screenshot_2020-09-18-17-02-01-33_copy_1320x880.jpg.webp'));
-    _goFoodFeaturedList.add(new Food(
-        title: "Warung Steak",
-        url:
-            'https://fajar.co.id/wp-content/uploads/2020/05/Dian-Sastro-1.jpg'));
-    _goFoodFeaturedList.add(new Food(
-        title: "Kindai Warung Banjar",
-        url:
-            'https://fajar.co.id/wp-content/uploads/2020/05/Dian-Sastro-1.jpg'));
+  Future<List<Aktifitas>> fetchAktifitas() async {
+    List<Aktifitas> _listAktifitas = [];
+    _listAktifitas.add(new Aktifitas(
+        url: 'http://36.93.18.9:8001/asik/images/aktifitas/10.jpg'));
+    _listAktifitas.add(new Aktifitas(
+        url: 'http://36.93.18.9:8001/asik/images/aktifitas/11.jpg'));
+    _listAktifitas.add(new Aktifitas(
+        url: 'http://36.93.18.9:8001/asik/images/aktifitas/12.jpg'));
+    _listAktifitas.add(new Aktifitas(
+        url: 'http://36.93.18.9:8001/asik/images/aktifitas/13.jpg'));
+    _listAktifitas.add(new Aktifitas(
+        url: 'http://36.93.18.9:8001/asik/images/aktifitas/14.jpg'));
     return new Future.delayed(new Duration(seconds: 1), () {
-      return _goFoodFeaturedList;
+      return _listAktifitas;
     });
   }
 }
 
-class Food {
-  String title;
+class Aktifitas {
   String url;
 
-  Food({required this.title, required this.url});
+  Aktifitas({required this.url});
 }
