@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:siap/services/service.dart';
 import 'package:siap/models/model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TicketOpen extends StatefulWidget {
   final String? nopid;
-  final String? token;
-  TicketOpen({super.key, this.nopid, this.token});
+
+  TicketOpen({super.key, this.nopid});
 
   @override
   State<TicketOpen> createState() => _TicketOpenState();
@@ -14,11 +15,24 @@ class TicketOpen extends StatefulWidget {
 
 class _TicketOpenState extends State<TicketOpen> {
   SiapApiService? siapApiService;
+  late SharedPreferences _preferences;
+  String? tokenNo;
 
   @override
   void initState() {
     super.initState();
     siapApiService = SiapApiService();
+    _initSharedPreferences();
+  }
+
+  Future<void> _initSharedPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
+    await _loadStoredValue();
+  }
+
+  Future _loadStoredValue() async {
+    tokenNo = _preferences.getString("sp_token");
+    setState(() {});
   }
 
   @override
@@ -30,7 +44,8 @@ class _TicketOpenState extends State<TicketOpen> {
       body: Container(
         color: Colors.lime[50],
         child: FutureBuilder(
-            future: siapApiService?.getOpenticket(widget.nopid.toString()),
+            future: siapApiService?.getOpenticket(
+                widget.nopid.toString(), tokenNo ?? ''),
             builder: (BuildContext context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -131,7 +146,7 @@ class _TicketOpenState extends State<TicketOpen> {
                     size: 30,
                   ),
                   onTap: () {
-                    context.goNamed('tiketaction',
+                    context.goNamed('chiefaction',
                         params: {'nomor': tiket.notiket ?? ''});
                   },
                 ),

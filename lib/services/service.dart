@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:siap/models/model.dart';
 import 'package:http/http.dart' show Client;
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 
 class SiapApiService {
   Client client = Client();
-  static const String url = "http://192.168.32.1/apisiap/public/";
+  static const String url = "http://192.168.19.4/apisiap/public/";
 
   Future<Person?> login(String pid, String pass) async {
     try {
@@ -21,13 +19,7 @@ class SiapApiService {
         return data;
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Terjadi Kesalahan Koneksi Ke Server, Mungkin dia Lelah...!',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+      throw e;
     }
     return null;
   }
@@ -48,13 +40,7 @@ class SiapApiService {
         return data;
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Terjadi Kesalahan Koneksi Ke Server, Mungkin dia Lelah...!',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+      throw e;
     }
     return null;
   }
@@ -121,13 +107,7 @@ class SiapApiService {
         return listlokasi;
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Error $e',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+      throw e;
     }
     return [];
   }
@@ -162,13 +142,7 @@ class SiapApiService {
         return true;
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Error $e',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+      throw e;
     }
     return false;
   }
@@ -194,6 +168,7 @@ class SiapApiService {
               mulai: data["mulai"],
               selesai: data["selesai"],
               statustiket: data["statustiket"],
+              validasi: data["validasi"],
               baca: data["baca"],
               tutup: data["tutup"],
               keterangan: data["keterangan"]);
@@ -202,13 +177,7 @@ class SiapApiService {
         return listtiket;
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Error $e',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+      throw e;
     }
     return [];
   }
@@ -272,6 +241,7 @@ class SiapApiService {
               mulai: data["mulai"],
               selesai: data["selesai"],
               statustiket: data["statustiket"],
+              validasi: data["validasi"],
               baca: data["baca"],
               tutup: data["tutup"],
               keterangan: data["keterangan"]);
@@ -280,13 +250,7 @@ class SiapApiService {
         return listtiket;
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Error $e',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+      throw e;
     }
     return [];
   }
@@ -302,13 +266,7 @@ class SiapApiService {
         return data;
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Error $e',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+      throw e;
     }
     return null;
   }
@@ -333,11 +291,11 @@ class SiapApiService {
 
   //tampilkan open tiket di halaman SPV
 
-  Future<List<Tiket?>> getOpenticket(String pid) async {
+  Future<List<Tiket?>> getOpenticket(String pid, String token) async {
     Map<String, String> header = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      //'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $token'
     };
     try {
       var respond =
@@ -360,6 +318,7 @@ class SiapApiService {
               mulai: data["mulai"],
               selesai: data["selesai"],
               statustiket: data["statustiket"],
+              validasi: data["validasi"],
               baca: data["baca"],
               tutup: data["tutup"],
               keterangan: data["keterangan"]);
@@ -368,13 +327,7 @@ class SiapApiService {
         return listtiket;
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Error $e',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+      throw e;
     }
     return [];
   }

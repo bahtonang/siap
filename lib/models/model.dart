@@ -138,6 +138,7 @@ class Tiket {
   final String? mulai;
   final String? selesai;
   final String? statustiket;
+  final String? validasi;
   final String? baca;
   final String? tutup;
   final String? keterangan;
@@ -155,6 +156,7 @@ class Tiket {
     required this.mulai,
     required this.selesai,
     required this.statustiket,
+    required this.validasi,
     required this.baca,
     required this.tutup,
     required this.keterangan,
@@ -173,6 +175,7 @@ class Tiket {
         mulai: json["mulai"],
         selesai: json["selesai"],
         statustiket: json["statustiket"],
+        validasi: json["validasi"],
         baca: json["baca"],
         tutup: json["tutup"],
         keterangan: json["keterangan"],
@@ -228,6 +231,8 @@ class Datanotiket {
   String? nama;
   String? bagian;
   String? statustiket;
+  String? validasi;
+  String? teknisi;
 
   Datanotiket({
     this.notiket,
@@ -237,6 +242,8 @@ class Datanotiket {
     this.nama,
     this.bagian,
     this.statustiket,
+    this.validasi,
+    this.teknisi,
   });
 
   factory Datanotiket.fromJson(Map<String, dynamic> json) => Datanotiket(
@@ -247,6 +254,8 @@ class Datanotiket {
         nama: json["nama"],
         bagian: json["bagian"],
         statustiket: json["statustiket"],
+        validasi: json["validasi"],
+        teknisi: json["teknisi"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -257,5 +266,7 @@ class Datanotiket {
         "nama": nama,
         "bagian": bagian,
         "statustiket": statustiket,
+        "validasi": validasi,
+        "teknisi": teknisi,
       };
 }

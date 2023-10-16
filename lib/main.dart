@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:siap/clients/chiefs/chiefaction.dart';
 import 'package:siap/clients/chiefs/tiketopen.dart';
+import 'package:siap/clients/chiefs/validasi.dart';
 import 'package:siap/landingpage/landingpage.dart';
 import 'package:siap/constans.dart';
 import 'package:siap/login.dart';
@@ -59,6 +61,23 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             return TicketOpen(nopid: state.params['pid']);
           },
+        ),
+        GoRoute(
+            path: 'chiefaction/:nomor',
+            name: 'chiefaction',
+            builder: (context, state) {
+              return ChiefAction(notiket: state.params['nomor']);
+            }),
+        GoRoute(
+          path: 'validasi/:barang/:teknisi/:vali',
+          name: 'validasi',
+          pageBuilder: (context, state) => MaterialPage(
+              fullscreenDialog: true,
+              child: ValidasiTicket(
+                barang: state.params['barang'],
+                teknisi: state.params['teknisi'],
+                vali: state.params['vali'],
+              )),
         ),
       ],
     ),
